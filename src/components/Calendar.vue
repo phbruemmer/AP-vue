@@ -7,7 +7,7 @@
 
   <div class="calendar">
     <div class="calendar-container">
-      <div @click="lastMonth()">
+      <div @click="goLastMonth()">
         <div class="arrow left"></div>
       </div>
 
@@ -35,13 +35,11 @@
               v-for="(day, index) in week"
               :key="index"
               class="day"
-              :class="
-                day.getDate() == today.getDate() &&
-                today.getMonth() == calendarView.getMonth() &&
-                today.getFullYear() == calendarView.getFullYear()
-                  ? 'today'
-                  : ''
-              "
+              :class="{
+                today: checkToday(day),
+                'last-month': checkLastMonth(day),
+              }"
+              @click="openModal(day)"
             >
               {{ day.getDate() }}
             </td>
@@ -57,13 +55,23 @@
     <button class="btn-reset" @click="reset()">Heute</button>
   </div>
 
-  <Modal title="Test" />
+  <Modal :title="modalTitle" :is-open="isOpen" @close="isOpen = false" />
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
 import Modal from "./UI/Modal.vue";
 
+// General Variables
+const weekdaysFullDevEnv = [
+  "Sonntag",
+  "Montag",
+  "Dienstag",
+  "Mittwoch",
+  "Donnerstag",
+  "Freitag",
+  "Samstag",
+];
 const weekdays = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 
 const months = [
@@ -80,6 +88,19 @@ const months = [
   "November",
   "Dezember",
 ];
+
+// MODAL - VARIABLES
+const isOpen = ref<boolean>(false);
+const modalTitle = ref<string>("");
+
+const openModal = (day: Date): void => {
+  modalTitle.value = `
+  ${weekdaysFullDevEnv[day.getDay()]},
+  ${day.getDate()}.
+  ${months[day.getMonth()]}
+    ${day.getFullYear()}`;
+  isOpen.value = true;
+};
 
 // This variable tracks the number of months
 // we skipped from todays dates month.
@@ -110,7 +131,7 @@ const calendarView = ref<Date>(
 // Each time, the user switches to a new month,
 // this function is executed and calculates the
 // new month.
-const recalculateMonth = () => {
+const recalculateMonth = (): void => {
   // Current Month
   const month = new Date(
     calendarView.value.getFullYear(),
@@ -128,12 +149,15 @@ const recalculateMonth = () => {
   // Get the first weekday of the month
   // to know where to start counting from.
   // Adding 1 to move monday to the first place
-  const firstDayInMonth =
-    new Date(
-      calendarView.value.getFullYear(),
-      calendarView.value.getMonth(),
-      1
-    ).getDay() - 1;
+  const firstDayInMonthUnformatted = new Date(
+    calendarView.value.getFullYear(),
+    calendarView.value.getMonth(),
+    1
+  ).getDay();
+
+  // Mapped from 0: Sunday, 1: Monday etc.
+  // to 0: Monday, 1: tuesday etc.
+  const firstDayInMonth = (firstDayInMonthUnformatted + 6) % 7;
 
   // Get the length of the current month
   // to iterate through each day of the
@@ -145,14 +169,15 @@ const recalculateMonth = () => {
   const lastMonthLength = lastMonth.getDate();
 
   // To get the first day of the week at the beginning of the month
-  const monthStart = currentMonthLength - firstDayInMonth + 1;
+  const monthStart = lastMonthLength - firstDayInMonth + 1;
 
   const week_iteration = ref<Date[]>([]);
   let i = 0;
 
   calendarMonth.value = [[]];
 
-  // Pushes the last few days of the last month to fillup week
+  // Pushes the last few days of the last month
+  // to fillup the first week
   for (let day = monthStart; day <= lastMonthLength; day++) {
     week_iteration.value.push(
       new Date(lastMonth.getFullYear(), lastMonth.getMonth(), day)
@@ -180,7 +205,7 @@ const recalculateMonth = () => {
 };
 
 // Resets the current CalendarView back to Today
-const reset = () => {
+const reset = (): void => {
   monthCount.value = 0;
   calendarView.value = new Date(
     today.getFullYear(),
@@ -191,8 +216,7 @@ const reset = () => {
 };
 
 // Increments the month
-const nextMonth = () => {
-  console.log(monthCount.value);
+const nextMonth = (): void => {
   if (monthCount.value < skipLimit) monthCount.value++;
   calendarView.value = new Date(
     today.getFullYear(),
@@ -203,7 +227,7 @@ const nextMonth = () => {
 };
 
 // Decrements the month
-const lastMonth = () => {
+const goLastMonth = (): void => {
   if (monthCount.value > -skipLimit) monthCount.value--;
   calendarView.value = new Date(
     today.getFullYear(),
@@ -212,6 +236,23 @@ const lastMonth = () => {
   );
 
   recalculateMonth();
+};
+
+// Calendar Run Functions - These functions
+// check if specific Date characteristics are met.
+// For instance: Last Month Days or Today, etc.
+// This way we don't make a mess in the template
+// and can mark the correct date.
+const checkToday = (day: Date): boolean => {
+  return (
+    day.getDate() == today.getDate() &&
+    today.getMonth() == calendarView.value.getMonth() &&
+    today.getFullYear() == calendarView.value.getFullYear()
+  );
+};
+
+const checkLastMonth = (day: Date): boolean => {
+  return day.getMonth() != calendarView.value.getMonth();
 };
 
 onMounted(() => {
@@ -351,7 +392,6 @@ thead th {
 
 .day:hover {
   background-color: #2c3f501a;
-  color: #333;
 }
 
 .day:active {
@@ -360,5 +400,11 @@ thead th {
 
 .today {
   background-color: #3fa58f38;
+}
+
+.last-month {
+  background-color: #0000001c;
+  color: #888;
+  border-radius: 0;
 }
 </style>
