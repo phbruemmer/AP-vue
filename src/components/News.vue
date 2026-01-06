@@ -28,18 +28,13 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import json_news from "../data/news.json";
 
 interface NewsItem {
   date: string;
   title: string;
   content: string;
-}
-
-interface NewsData {
-  "top-news": NewsItem[];
-  "more-news": NewsItem[];
 }
 
 const topNews = ref<NewsItem[]>(json_news["top-news"]);
@@ -59,6 +54,7 @@ h3 {
 
 .news-container {
   margin-top: 5vh;
+  width: 100vw;
 }
 
 .head-line {

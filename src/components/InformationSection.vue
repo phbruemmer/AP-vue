@@ -141,7 +141,7 @@ h2 {
 }
 
 .content-container {
-  width: 100%;
+  width: 100vw;
   height: 40vh;
   background: #2c3f50;
 }

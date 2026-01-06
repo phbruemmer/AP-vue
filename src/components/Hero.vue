@@ -27,13 +27,13 @@ const scrollTo = (to: string) => {
 </script>
 <style scoped>
 .navbar {
-  width: 100%;
+  width: 100vw;
 }
 
 .hero-container {
   position: relative;
   height: 80vh;
-  width: 100%;
+  width: 100vw;
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)),
     url("../assets/placeholder.jpg");
   background-size: cover;

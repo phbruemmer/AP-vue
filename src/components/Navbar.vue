@@ -22,7 +22,7 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  width: 100%;
+  width: 100vw;
 
   background: transparent;
   padding: 10px 0;

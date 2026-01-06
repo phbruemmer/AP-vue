@@ -23,7 +23,7 @@
         <h4>Rechtliches</h4>
         <ul>
           <li>
-            <a href="/legal">Informationen</a>
+            <router-link :to="{ path: '/legal' }"> Informationen </router-link>
           </li>
           <li>
             <router-link :to="{ path: '/legal', hash: '#impressum' }">
@@ -58,8 +58,9 @@
   color: #333;
   font-family: "Helvetica Neue", Arial, sans-serif;
   font-size: 0.9rem;
-  padding: 3rem 1rem;
-  border-top: 1px solid #e0e0e0;
+  width: 100vw;
+  padding: 3rem 0;
+  margin-top: 15vh;
 }
 
 .footer-container {

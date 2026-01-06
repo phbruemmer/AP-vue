@@ -1,6 +1,8 @@
 <template>
   <!-- Hero Section -->
-  <Hero />
+  <section>
+    <Hero />
+  </section>
 
   <!-- Section 1 - General Information -->
   <section id="start" class="start">
@@ -48,9 +50,5 @@ section {
 
 .start {
   scroll-margin-top: 25vh;
-}
-
-.placeholder {
-  height: 80vh;
 }
 </style>

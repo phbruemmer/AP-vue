@@ -43,6 +43,7 @@
 .content-wrapper {
   display: flex;
   justify-content: center;
+  width: 100vw;
   gap: 4rem;
   flex-wrap: wrap;
 }
