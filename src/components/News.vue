@@ -7,31 +7,44 @@
       </p>
     </div>
 
-    <div class="content-container box">
-      <div class="text-content">
+    <div class="content-container">
+      <div class="top-content box">
         <h3>Top News</h3>
-        <p class="news">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum tenetur
-          impedit, ducimus temporibus accusamus repudiandae atque tempore ab,
-          quam vitae, architecto animi eum nihil necessitatibus dolore sunt!
-          Unde, quaerat exercitationem.
+        <p class="news" v-for="(item, index) in topNews" :key="index">
+          <strong>{{ item.date }}</strong> - {{ item.title }} <br />
+          {{ item.content }}
         </p>
       </div>
 
       <div class="more-content box">
         <h3>More News</h3>
-        <p class="news">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatibus
-          excepturi deleniti quaerat ipsam quia necessitatibus, similique
-          tempore quos iusto nesciunt nisi rem iste, aliquid mollitia odit.
-          Voluptatibus dicta nisi nesciunt?
+        <p class="news" v-for="(item, index) in moreNews" :key="index">
+          <strong>{{ item.date }}</strong> - {{ item.title }} <br />
+          {{ item.content }}
         </p>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { onMounted, ref } from "vue";
+import json_news from "../data/news.json";
+
+interface NewsItem {
+  date: string;
+  title: string;
+  content: string;
+}
+
+interface NewsData {
+  "top-news": NewsItem[];
+  "more-news": NewsItem[];
+}
+
+const topNews = ref<NewsItem[]>(json_news["top-news"]);
+const moreNews = ref<NewsItem[]>(json_news["more-news"]);
+</script>
 
 <style scoped>
 h2 {
@@ -65,17 +78,21 @@ h3 {
   justify-content: center;
 }
 
-.text-content {
+.box {
+  min-width: 320px;
+}
+
+.top-content {
   max-width: 460px;
   padding: 10vh 20px;
   transition: all 0.2s ease;
 }
 
-.text-content:hover {
+.top-content:hover {
   transform: translateY(-3px);
 }
 
-.text-content h3::after {
+.top-content h3::after {
   content: "";
   position: absolute;
   left: 0;

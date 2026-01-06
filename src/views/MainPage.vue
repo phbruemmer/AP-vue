@@ -22,8 +22,10 @@
     <Services />
   </section>
 
-  <!-- Section 5 - Contact Information -->
-  <div class="placeholder"></div>
+  <!-- Section 5 - Calendar Section -->
+  <section id="calendar">
+    <Calendar />
+  </section>
 
   <!-- Footer -->
   <Footer />
@@ -35,7 +37,7 @@ import InformationSection from "../components/InformationSection.vue";
 import News from "../components/News.vue";
 import AppointmentSelection from "../components/AppointmentSelection.vue";
 import Services from "../components/Services.vue";
-
+import Calendar from "../components/Calendar.vue";
 import Footer from "../components/Footer.vue";
 </script>
 

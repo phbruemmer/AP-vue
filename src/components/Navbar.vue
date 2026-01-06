@@ -9,7 +9,7 @@
 
     <nav class="nav">
       <a href="#services" class="animated-link">Leistungen</a>
-      <a href="#contact" class="animated-link">Contact</a>
+      <a href="#calendar" class="animated-link">Kalender</a>
     </nav>
   </div>
 </template>
