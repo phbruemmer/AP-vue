@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-wrapper" v-if="isOpen">
+  <div class="modal-wrapper" v-if="isOpen" @click.self="closeModal()">
     <div class="modal-container">
       <div class="modal-navigation">
         <h3 class="title">{{ props.title }}</h3>

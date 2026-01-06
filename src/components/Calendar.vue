@@ -30,7 +30,6 @@
 
         <tbody>
           <tr v-for="(week, index) in calendarMonth" :key="index">
-            <!-- Not really happy with my implementation to mark the current day but it works -->
             <td
               v-for="(day, index) in week"
               :key="index"
@@ -38,6 +37,7 @@
               :class="{
                 today: checkToday(day),
                 'last-month': checkLastMonth(day),
+                appointment: checkLocalStorage(day),
               }"
               @click="openModal(day)"
             >
@@ -53,14 +53,22 @@
     </div>
 
     <button class="btn-reset" @click="reset()">Heute</button>
+
+    <p class="note">
+      Die Angaben zu den Öffnungszeiten könnten ungenau sein. Feiertage sind
+      regulär geschlossen und nicht eingetragen.
+    </p>
   </div>
 
-  <Modal :title="modalTitle" :is-open="isOpen" @close="isOpen = false" />
+  <Modal :title="modalTitle" :is-open="isOpen" @close="isOpen = false">
+    <CalendarSlot :day="modalDay" />
+  </Modal>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
 import Modal from "./UI/Modal.vue";
+import CalendarSlot from "./Calendar/CalendarSlot.vue";
 
 // General Variables
 const weekdaysFullDevEnv = [
@@ -92,8 +100,10 @@ const months = [
 // MODAL - VARIABLES
 const isOpen = ref<boolean>(false);
 const modalTitle = ref<string>("");
+const modalDay = ref<Date>(new Date());
 
 const openModal = (day: Date): void => {
+  modalDay.value = day;
   modalTitle.value = `
   ${weekdaysFullDevEnv[day.getDay()]},
   ${day.getDate()}.
@@ -255,6 +265,11 @@ const checkLastMonth = (day: Date): boolean => {
   return day.getMonth() != calendarView.value.getMonth();
 };
 
+const checkLocalStorage = (day: Date): boolean => {
+  const data = localStorage.getItem(day.toDateString());
+  return data ? true : false;
+};
+
 onMounted(() => {
   // Initial calculation
   recalculateMonth();
@@ -385,7 +400,6 @@ thead th {
   padding: 0.75rem 0;
   font-size: 0.9rem;
   color: #111827;
-  border-radius: 2px;
   cursor: pointer;
   transition: all 0.1s ease;
 }
@@ -398,6 +412,23 @@ thead th {
   transform: scale(0.9);
 }
 
+.note {
+  font-size: 0.85em;
+  padding: 20px;
+  max-width: 20rem;
+  color: #555;
+  line-height: 1.4;
+  margin-bottom: 0.5em;
+  word-wrap: break-word;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+.note:hover {
+  box-shadow: 0 0 12px #00000020;
+  transform: scale(1.05);
+}
+
 .today {
   background-color: #3fa58f38;
 }
@@ -405,6 +436,9 @@ thead th {
 .last-month {
   background-color: #0000001c;
   color: #888;
-  border-radius: 0;
+}
+
+.appointment {
+  background-color: #318fe04a;
 }
 </style>
