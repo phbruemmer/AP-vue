@@ -19,7 +19,7 @@
     </div>
   </div>
 
-  <div class="content" v-else>
+  <div class="content" v-if="!showContent && showAppointments">
     <div class="appointment-card">
       <div class="appointment-info">
         <span class="appointment-label">Termin</span>
@@ -55,6 +55,7 @@ const firstTimeInput = ref<string>("");
 const secondTimeInput = ref<string>("");
 
 const showContent = ref<boolean>(true);
+const showAppointments = ref<boolean>(true);
 
 const appointmentText = ref<string>("Keine Termine.");
 
@@ -64,14 +65,18 @@ const updateStatus = () => {
   if (currentDay == 0 || currentDay == 2) {
     status.value = "Vormittags geöffnet";
     showContent.value = true;
+    showAppointments.value = true;
   } else if (currentDay == 1 || currentDay == 3) {
     status.value = "Vor- und Nachmittags geöffnet";
     showContent.value = true;
+    showAppointments.value = true;
   } else if (currentDay == 4) {
     status.value = "Geschlossen - Erreichbar";
+    showAppointments.value = true;
     showContent.value = true;
   } else {
     status.value = "Geschlossen";
+    showAppointments.value = false;
     showContent.value = false;
   }
 };
