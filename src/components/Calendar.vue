@@ -34,15 +34,16 @@
             <td
               v-for="(day, index) in week"
               :key="index"
+              class="day"
               :class="
-                day == today.getDay() &&
+                day.getDate() == today.getDate() &&
                 today.getMonth() == calendarView.getMonth() &&
                 today.getFullYear() == calendarView.getFullYear()
                   ? 'today'
                   : ''
               "
             >
-              {{ day }}
+              {{ day.getDate() }}
             </td>
           </tr>
         </tbody>
@@ -55,10 +56,13 @@
 
     <button class="btn-reset" @click="reset()">Heute</button>
   </div>
+
+  <Modal title="Test" />
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
+import Modal from "./UI/Modal.vue";
 
 const weekdays = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 
@@ -87,7 +91,7 @@ const skipLimit = 6;
 
 // calendarMonth stores the current
 // calculated month.
-const calendarMonth = ref<[number[]]>([[]]);
+const calendarMonth = ref<[Date[]]>([[]]);
 
 // Well... today
 const today = new Date();
@@ -143,14 +147,16 @@ const recalculateMonth = () => {
   // To get the first day of the week at the beginning of the month
   const monthStart = currentMonthLength - firstDayInMonth + 1;
 
-  const week_iteration = ref<number[]>([]);
+  const week_iteration = ref<Date[]>([]);
   let i = 0;
 
   calendarMonth.value = [[]];
 
   // Pushes the last few days of the last month to fillup week
   for (let day = monthStart; day <= lastMonthLength; day++) {
-    week_iteration.value.push(day);
+    week_iteration.value.push(
+      new Date(lastMonth.getFullYear(), lastMonth.getMonth(), day)
+    );
     i++;
   }
 
@@ -160,7 +166,13 @@ const recalculateMonth = () => {
       calendarMonth.value.push(week_iteration.value);
       week_iteration.value = [];
     }
-    week_iteration.value.push(day);
+    week_iteration.value.push(
+      new Date(
+        calendarView.value.getFullYear(),
+        calendarView.value.getMonth(),
+        day
+      )
+    );
     i++;
   }
 
@@ -327,7 +339,7 @@ thead th {
   border-bottom: 1px solid #e5e7eb;
 }
 
-tbody td {
+.day {
   min-width: 20px;
   padding: 0.75rem 0;
   font-size: 0.9rem;
@@ -337,9 +349,13 @@ tbody td {
   transition: all 0.1s ease;
 }
 
-tbody td:hover {
+.day:hover {
   background-color: #2c3f501a;
   color: #333;
+}
+
+.day:active {
+  transform: scale(0.9);
 }
 
 .today {
