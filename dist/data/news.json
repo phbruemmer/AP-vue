@@ -1,0 +1,16 @@
+{
+  "top-news": [
+    {
+      "date": "05.01.2026",
+      "title": "First day of the Year!",
+      "content": "Lorem ipsum dolor sit amet consectetur addipisicing elit. Cum tenetur impedit."
+    }
+  ],
+  "more-news": [
+    {
+      "date": "24.12.2025",
+      "title": "Christmas Eve!",
+      "content": "Lorem ipsum dolor sit iusto nesciunt nisi rem iste, aliquid mollitia odit. Voluptatibus dicta nisi nesciunt?"
+    }
+  ]
+}
