@@ -1,6 +1,40 @@
 <template>
   <div class="center">
     <p class="note">{{ status }}</p>
+    <div class="svg-container" v-if="showContent || showAppointments">
+      <svg
+        width="18px"
+        height="18px"
+        stroke-width="1"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        color="#000000"
+        @click="toggleInfo()"
+      >
+        <path
+          d="M12 11.5V16.5"
+          stroke="#000000"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+        <path
+          d="M12 7.51L12.01 7.49889"
+          stroke="#000000"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+        <path
+          d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+          stroke="#000000"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </svg>
+    </div>
   </div>
 
   <div class="content" v-if="showContent">
@@ -15,7 +49,7 @@
         </div>
       </div>
 
-      <button class="btn-save" @click="saveInLocalStorage()">Speichern</button>
+      <button class="btn" @click="saveInLocalStorage()">Speichern</button>
     </div>
   </div>
 
@@ -30,29 +64,60 @@
     </div>
   </div>
 
-  <PopUp title="Fehlgeschlagen" :is-open="popUpIsOpen" @close="closePopUp()">
-    Es muss ein Zeitraum eingegeben werden.
-  </PopUp>
+  <div class="info-container" v-if="showInfo">
+    <p class="note">
+      Die Termine sind nur auf Ihrem Gerät sichtbar und gelten nicht als
+      Terminvereinbarung.
+    </p>
+    <a @click="showModal = true">Alle Einträge löschen</a>
+  </div>
+
+  <Modal
+    title="Löschen bestätigen."
+    :is-open="showModal"
+    @close="showModal = false"
+  >
+    <p class="note">
+      Drücken Sie 'Bestätigen', um alle im Browser gespeicherten Termine zu
+      löschen.
+    </p>
+    <button
+      :style="{ margin: '1vh 0' }"
+      class="btn-remove"
+      @click="deleteLocalStorage()"
+    >
+      Bestätigen
+    </button>
+  </Modal>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref, watch } from "vue";
-import PopUp from "../UI/PopUp.vue";
+import Modal from "../UI/Modal.vue";
 
-// PopUp Variables
-const popUpIsOpen = ref<boolean>(false);
-const closePopUp = () => {
-  popUpIsOpen.value = false;
+// Info Variable
+const showInfo = ref<boolean>(false);
+const toggleInfo = (): void => {
+  showInfo.value = !showInfo.value;
 };
+
+// Confirm Delete Data Removal Modal Variables
+const showModal = ref<boolean>(false);
 
 const props = defineProps<{
   day: Date;
 }>();
 
+const emits = defineEmits<{
+  (e: "recalculate"): void;
+  (e: "invalidInput"): void;
+  (e: "deletedLocalstorage"): void;
+}>();
+
 const status = ref<string>("");
 
-const firstTimeInput = ref<string>("");
-const secondTimeInput = ref<string>("");
+const firstTimeInput = ref<string>("08:00");
+const secondTimeInput = ref<string>("09:00");
 
 const showContent = ref<boolean>(true);
 const showAppointments = ref<boolean>(true);
@@ -88,8 +153,9 @@ const saveInLocalStorage = () => {
       `${firstTimeInput.value};${secondTimeInput.value}`
     );
     checkLocalStorage();
+    emits("recalculate");
   } else {
-    popUpIsOpen.value = true;
+    emits("invalidInput");
   }
 };
 
@@ -100,6 +166,7 @@ const removeAppointment = () => {
   firstTimeInput.value = "";
   secondTimeInput.value = "";
   showContent.value = true;
+  emits("recalculate");
 };
 
 const checkLocalStorage = () => {
@@ -111,6 +178,13 @@ const checkLocalStorage = () => {
   } else {
     appointmentText.value = "Keine Termine.";
   }
+};
+
+const deleteLocalStorage = () => {
+  localStorage.clear();
+  showModal.value = false;
+  emits("recalculate");
+  emits("deletedLocalstorage");
 };
 
 watch(
@@ -151,7 +225,7 @@ onMounted(() => {
   align-items: end;
 }
 
-.btn-save {
+.btn {
   all: unset;
   box-sizing: border-box;
 
@@ -179,16 +253,16 @@ onMounted(() => {
     box-shadow 0.15s ease, transform 0.05s ease;
 }
 
-.btn-save:hover {
+.btn:hover {
   background-color: #e5e7eb;
 }
 
-.btn-save:active {
+.btn:active {
   transform: translateY(1px);
 }
 
-.btn-save:disabled,
-.btn-save[aria-disabled="true"] {
+.btn:disabled,
+.btn[aria-disabled="true"] {
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
@@ -280,5 +354,28 @@ onMounted(() => {
 
 .btn-remove:active {
   transform: translateY(1px);
+}
+
+.info-container {
+  margin-top: 2vh;
+}
+
+.info-container a {
+  font-weight: 100;
+  font-size: 0.8rem;
+  text-decoration: underline;
+}
+
+.info-container a:hover {
+  cursor: pointer;
+}
+
+.svg-container svg {
+  transition: all 0.2s ease;
+}
+
+.svg-container svg:hover {
+  transform: scale(0.9);
+  cursor: pointer;
 }
 </style>

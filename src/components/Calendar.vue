@@ -37,6 +37,8 @@
               :class="{
                 today: checkToday(day),
                 'last-month': checkLastMonth(day),
+                weekend: checkWeekend(day),
+                'special-day': checkSpecialDay(day),
                 appointment: checkLocalStorage(day),
               }"
               @click="openModal(day)"
@@ -61,14 +63,47 @@
   </div>
 
   <Modal :title="modalTitle" :is-open="isOpen" @close="isOpen = false">
-    <CalendarSlot :day="modalDay" />
+    <CalendarSlot
+      :day="modalDay"
+      @recalculate="recalculateMonth()"
+      @invalidInput="showInvalidInputError()"
+      @deletedLocalstorage="showDeleteLocalStorageMessage()"
+    />
   </Modal>
+
+  <PopUp :title="popUpTitle" :is-open="popUpIsOpen" @close="closePopUp()">
+    {{ popUpContent }}
+  </PopUp>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
 import Modal from "./UI/Modal.vue";
+import PopUp from "./UI/PopUp.vue";
 import CalendarSlot from "./Calendar/CalendarSlot.vue";
+
+// PopUp Variables
+const popUpIsOpen = ref<boolean>(false);
+
+const popUpTitle = ref<string>("Fehlgeschlagen");
+const popUpContent = ref<string>("Es muss ein Zeitraum eingegeben werden.");
+
+const closePopUp = () => {
+  popUpIsOpen.value = false;
+};
+
+const showInvalidInputError = (): void => {
+  popUpTitle.value = "Fehlgeschlagen";
+  popUpContent.value = "Es muss ein Zeitraum eingegeben werden.";
+  popUpIsOpen.value = true;
+};
+
+const showDeleteLocalStorageMessage = () => {
+  popUpTitle.value = "Gespeicherte Einträge gelöscht.";
+  popUpContent.value =
+    "Die Termine wurden erfolgreich aus dem Speicher Ihres Browsers gelöscht.";
+  popUpIsOpen.value = true;
+};
 
 // General Variables
 const weekdaysFullDevEnv = [
@@ -265,6 +300,15 @@ const checkLastMonth = (day: Date): boolean => {
   return day.getMonth() != calendarView.value.getMonth();
 };
 
+const checkWeekend = (day: Date): boolean => {
+  return day.getDay() == 0 || day.getDay() == 6;
+};
+
+const checkSpecialDay = (day: Date): boolean => {
+  const specialDay = 5;
+  return day.getDay() == specialDay;
+};
+
 const checkLocalStorage = (day: Date): boolean => {
   const data = localStorage.getItem(day.toDateString());
   return data ? true : false;
@@ -277,6 +321,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+h2 {
+  font-size: 2rem;
+}
+
 .title {
   width: 100vw;
   margin-top: 10vh;
@@ -433,12 +481,30 @@ thead th {
   background-color: #3fa58f38;
 }
 
-.last-month {
+.weekend {
   background-color: #0000001c;
   color: #888;
 }
 
 .appointment {
   background-color: #318fe04a;
+}
+
+.special-day {
+  background-color: #ff00000f;
+  color: #888;
+}
+
+.special-day.appointment {
+  background-color: #f6c3c3bf;
+}
+
+.special-day.today {
+  background-color: #ff000049;
+}
+
+.last-month {
+  background-color: #0000001c;
+  color: #888;
 }
 </style>

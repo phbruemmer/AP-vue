@@ -37,7 +37,7 @@ h3 {
 }
 
 .msg-box {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
@@ -46,6 +46,7 @@ h3 {
   border-radius: 2px;
   margin-top: 2vh;
   padding: 2vh 2vw;
+  z-index: 9999;
 }
 
 .note {
@@ -61,7 +62,7 @@ h3 {
 /* Transition */
 .msg-enter-active,
 .msg-leave-active {
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transition: all 0.25s ease;
 }
 
 .msg-enter-from,

@@ -33,6 +33,10 @@
 <script lang="ts" setup></script>
 
 <style scoped>
+h2 {
+  font-size: 2rem;
+}
+
 .section-title {
   text-align: center;
   margin: 15vh 0 3vh 0;

@@ -43,6 +43,7 @@ const moreNews = ref<NewsItem[]>(json_news["more-news"]);
 
 <style scoped>
 h2 {
+  font-size: 2rem;
   color: #333;
 }
 
