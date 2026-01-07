@@ -28,8 +28,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
-import json_news from "../data/news.json";
+import { onMounted, ref } from "vue";
+import base from "../data/base.json";
 
 interface NewsItem {
   date: string;
@@ -37,8 +37,20 @@ interface NewsItem {
   content: string;
 }
 
-const topNews = ref<NewsItem[]>(json_news["top-news"]);
-const moreNews = ref<NewsItem[]>(json_news["more-news"]);
+const topNews = ref<NewsItem[]>([]);
+const moreNews = ref<NewsItem[]>([]);
+
+const getNews = async () => {
+  const response = await fetch(`/${base}/data/news.json`);
+  const data = await response.json();
+
+  topNews.value = data["top-news"];
+  moreNews.value = data["more-news"];
+};
+
+onMounted(() => {
+  getNews();
+});
 </script>
 
 <style scoped>
