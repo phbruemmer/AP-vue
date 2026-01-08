@@ -171,4 +171,10 @@ h2 {
 .content {
   margin-top: 15px;
 }
+
+@media (max-width: 480px) {
+  .content-container {
+    overflow-x: scroll;
+  }
+}
 </style>

@@ -5,12 +5,8 @@
     </div>
   </div>
 
-  <div class="calendar">
-    <div class="calendar-container">
-      <div @click="goLastMonth()">
-        <div class="arrow left"></div>
-      </div>
-
+  <div class="calendar-container">
+    <div class="calendar">
       <table>
         <caption>
           {{
@@ -48,13 +44,19 @@
           </tr>
         </tbody>
       </table>
-
-      <div>
-        <div class="arrow right" @click="nextMonth()"></div>
-      </div>
     </div>
 
-    <button class="btn-reset" @click="reset()">Heute</button>
+    <div class="arrow-container">
+      <div class="arrow-hit-box" @click="goLastMonth()">
+        <div class="arrow left"></div>
+      </div>
+
+      <button class="btn-reset" @click="reset()">Heute</button>
+
+      <div class="arrow-hit-box" @click="nextMonth()">
+        <div class="arrow right"></div>
+      </div>
+    </div>
 
     <p class="note">
       Die Angaben zu den Öffnungszeiten könnten ungenau sein. Feiertage sind
@@ -103,6 +105,7 @@ const showDeleteLocalStorageMessage = () => {
   popUpContent.value =
     "Die Termine wurden erfolgreich aus dem Speicher Ihres Browsers gelöscht.";
   popUpIsOpen.value = true;
+  isOpen.value = false;
 };
 
 // General Variables
@@ -215,6 +218,8 @@ const recalculateMonth = (): void => {
 
   // To get the first day of the week at the beginning of the month
   const monthStart = lastMonthLength - firstDayInMonth + 1;
+
+  console.log(firstDayInMonth);
 
   const week_iteration = ref<Date[]>([]);
   let i = 0;
@@ -335,19 +340,31 @@ h2 {
 .title-wrapper {
   background: #2c3f50;
   border-radius: 2px 0 0 2px;
-  width: 20vw;
+  width: clamp(20%, 20vw, 100%);
   color: #fff;
+  padding: 0.5rem 1rem;
 }
 
 .calendar {
-  height: 45vh;
   margin-top: 5vh;
   padding: 2rem;
+  min-height: 28rem;
+
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 2.5rem;
+}
+
+.calendar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 100%;
+  padding: 0 1rem;
 }
 
 .btn-reset {
@@ -372,8 +389,7 @@ h2 {
   cursor: pointer;
   user-select: none;
 
-  transition: background-color 0.15s ease, color 0.15s ease,
-    box-shadow 0.15s ease, transform 0.05s ease;
+  transition: all 0.15s ease, transform 0.05s ease;
 }
 
 .btn-reset:hover {
@@ -391,18 +407,31 @@ h2 {
   pointer-events: none;
 }
 
-.calendar-container {
+.arrow-container {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-  max-width: 900px;
-  background: #ffffff;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 1rem;
+}
+
+.arrow-hit-box {
+  padding: 10px;
+  transition: all 0.2s ease;
+}
+
+.arrow-hit-box:hover {
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+.arrow-hit-box:active {
+  transform: scale(1.05);
 }
 
 .arrow {
-  height: 16px;
-  width: 16px;
+  height: 12px;
+  width: 12px;
   border-left: 2px solid #333;
   border-bottom: 2px solid #333;
   cursor: pointer;
@@ -423,7 +452,7 @@ h2 {
 
 table {
   border-collapse: collapse;
-  min-width: 820px;
+  width: 100%;
   text-align: center;
 }
 
@@ -436,6 +465,7 @@ caption {
 
 thead th {
   padding: 0.75rem 0;
+  width: 100px;
   font-size: 0.85rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -503,8 +533,35 @@ thead th {
   background-color: #ff000049;
 }
 
+.special-day.appointment.today {
+  background-color: #ff000060;
+}
+
+.appointment.today {
+  background-color: #318ee08c;
+}
+
 .last-month {
   background-color: #0000001c;
   color: #888;
+}
+
+@media (max-width: 768px) {
+  .calendar-container {
+    flex-direction: column;
+  }
+
+  .arrow-container {
+    width: 80%;
+    margin: 0 auto 0.5rem auto;
+  }
+
+  .title {
+    justify-content: center;
+  }
+
+  .title-wrapper {
+    width: 100%;
+  }
 }
 </style>

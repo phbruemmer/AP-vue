@@ -32,25 +32,24 @@ watch(
 </script>
 
 <style scoped>
-h3 {
-  font-weight: 100;
-}
-
 .msg-box {
   position: fixed;
-  top: 0;
+  top: 2vh;
   left: 50%;
   transform: translateX(-50%);
   background: #fafafa;
   box-shadow: 0 0 16px #00000018;
-  border-radius: 2px;
-  margin-top: 2vh;
-  padding: 2vh 2vw;
+  border-radius: 4px;
+  padding: 1.5vh 2vw;
   z-index: 9999;
+
+  width: 90%;
+  max-width: 400px;
+  box-sizing: border-box;
 }
 
 .note {
-  font-size: 0.8em;
+  font-size: clamp(0.7em, 1.5vw, 0.9em);
   color: #555;
   line-height: 1.4;
   margin-bottom: 0.5em;
@@ -75,5 +74,12 @@ h3 {
 .msg-leave-from {
   opacity: 1;
   transform: translate(-50%, 0);
+}
+
+@media (max-width: 350px) {
+  .msg-box {
+    padding: 2vh 3vw;
+    top: 1vh;
+  }
 }
 </style>

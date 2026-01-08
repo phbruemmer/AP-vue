@@ -41,12 +41,12 @@
     <p>Termin hinzufügen</p>
     <div class="input-container">
       <div class="timebox-container">
-        <div class="time-input">
-          <input type="time" v-model="firstTimeInput" />
-        </div>
-        <div class="time-input">
-          <input type="time" v-model="secondTimeInput" />
-        </div>
+        <input type="time" v-model="firstTimeInput" class="single-time-input" />
+        <input
+          type="time"
+          v-model="secondTimeInput"
+          class="single-time-input"
+        />
       </div>
 
       <button class="btn" @click="saveInLocalStorage()">Speichern</button>
@@ -226,22 +226,23 @@ onMounted(() => {
 }
 
 .btn {
-  all: unset;
+  appearance: none;
+  border: none;
+  outline: none;
+
   box-sizing: border-box;
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
 
   height: 40px;
 
-  padding: 0.5rem 1rem;
+  padding: 0 1rem;
   border-radius: 8px;
 
   font-size: 0.9rem;
-  font-weight: 500;
-  line-height: 1;
+  font-weight: 300;
 
   color: #333;
   background-color: #f3f4f6;
@@ -249,8 +250,7 @@ onMounted(() => {
   cursor: pointer;
   user-select: none;
 
-  transition: background-color 0.15s ease, color 0.15s ease,
-    box-shadow 0.15s ease, transform 0.05s ease;
+  transition: all 0.15s ease, transform 0.05s ease;
 }
 
 .btn:hover {
@@ -277,21 +277,45 @@ onMounted(() => {
 .time-input {
   display: flex;
   flex-direction: column;
-  font-size: 0.85em;
   color: #333;
 }
 
-.time-input input[type="time"] {
-  padding: 6px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #f9f9f9;
-  font-size: 0.9em;
-  transition: all 0.2s ease;
+.timebox-container {
+  display: flex;
+  gap: 10px;
+  width: 50%;
 }
 
-.disabled {
-  background-color: #000;
+.single-time-input {
+  appearance: none;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+
+  height: 40px;
+  flex: 1;
+
+  padding: 0 0.75rem;
+  border-radius: 8px;
+
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: #333;
+
+  background-color: #f3f4f6;
+  border: 1px solid transparent;
+
+  transition: all 0.2 ease;
+}
+
+.single-time-input:hover {
+  background-color: #e5e7eb;
+  cursor: pointer;
+}
+
+.single-time-input:focus {
+  background-color: #ffffff;
+  border-color: #d1d5db;
 }
 
 .appointment-card {

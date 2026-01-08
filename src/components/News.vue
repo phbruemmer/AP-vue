@@ -57,6 +57,7 @@ onMounted(() => {
 h2 {
   font-size: 2rem;
   color: #333;
+  text-align: center;
 }
 
 h3 {
@@ -66,8 +67,10 @@ h3 {
 }
 
 .news-container {
-  margin-top: 5vh;
-  width: 100vw;
+  margin-top: 10vh;
+  width: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 
 .head-line {
@@ -75,64 +78,91 @@ h3 {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin: 5vh;
 }
 
 .description {
-  width: 320px;
+  max-width: 320px;
+  text-align: center;
 }
 
 .content-container {
   display: flex;
   justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .box {
-  min-width: 320px;
+  flex: 1 1 320px;
+  box-sizing: border-box;
 }
 
-.top-content {
-  max-width: 460px;
-  padding: 10vh 20px;
-  transition: all 0.2s ease;
-}
-
-.top-content:hover {
-  transform: translateY(-3px);
-}
-
-.top-content h3::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, #42b883, #ffffff00);
-  border-radius: 2px;
-}
-
+.top-content,
 .more-content {
   max-width: 460px;
-  background: #2c3f50;
-  color: #fff;
-  padding: 10vh 20px;
-  border-radius: 2px;
+  padding: 8vh 4rem;
   transition: all 0.2s ease;
+  border-radius: 4px;
 }
 
+.top-content:hover,
 .more-content:hover {
   transform: translateY(-3px);
 }
 
+.top-content h3::after,
 .more-content h3::after {
   content: "";
   position: absolute;
-  right: 0;
   bottom: -6px;
   width: 100%;
   height: 3px;
+  border-radius: 2px;
+}
+
+.top-content h3::after {
+  left: 0;
+  background: linear-gradient(90deg, #42b883, #ffffff00);
+}
+
+.more-content {
+  background: #2c3f50;
+  color: #fff;
+}
+
+.more-content h3::after {
+  right: 0;
   background: linear-gradient(-90deg, #42b883, #ffffff00);
-  border-radius: 4px;
+}
+
+@media (max-width: 1024px) {
+  .content-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .top-content,
+  .more-content {
+    padding: 4vh 15px;
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+  }
+
+  .top-content {
+    padding: 3vh 2rem;
+  }
+
+  .more-content {
+    display: none;
+  }
 }
 </style>

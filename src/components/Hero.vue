@@ -35,7 +35,7 @@ const scrollTo = (to: string) => {
   height: 80vh;
   width: 100vw;
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)),
-    url("../assets/placeholder.jpg");
+    url("../assets/background.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
