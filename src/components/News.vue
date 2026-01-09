@@ -67,7 +67,7 @@ h3 {
 }
 
 .news-container {
-  margin-top: 10vh;
+  margin-top: 5vh;
   width: 100%;
   padding: 0 10px;
   box-sizing: border-box;
@@ -78,6 +78,7 @@ h3 {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin: 5vh 0;
 }
 
 .description {
@@ -155,14 +156,6 @@ h3 {
 
   h3 {
     font-size: 1.2rem;
-  }
-
-  .top-content {
-    padding: 3vh 2rem;
-  }
-
-  .more-content {
-    display: none;
   }
 }
 </style>
