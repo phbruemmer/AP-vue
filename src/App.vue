@@ -14,3 +14,10 @@ git add dist -f
 git commit -m "commit message"
 git subtree push --prefix dist origin gh-pages
 -->
+
+<!--
+If regular push does not work:
+git checkout gh-pages
+git reset --hard HEAD~1
+git push origin gh-pages --force
+-->

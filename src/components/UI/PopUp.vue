@@ -1,12 +1,14 @@
 <template>
-  <Transition name="msg">
-    <div class="msg-box" v-if="props.isOpen">
-      <p>{{ title }}</p>
-      <p class="note">
-        <slot></slot>
-      </p>
-    </div>
-  </Transition>
+  <div class="box-container">
+    <Transition name="msg">
+      <div class="msg-box" @click="close()" v-if="props.isOpen">
+        <p>{{ title }}</p>
+        <p class="note">
+          <slot></slot>
+        </p>
+      </div>
+    </Transition>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -18,6 +20,12 @@ const props = defineProps<{
 }>();
 
 const emits = defineEmits(["close"]);
+
+const close = () => {
+  setTimeout(() => {
+    emits("close");
+  }, 100);
+};
 
 watch(
   () => props.isOpen,
@@ -32,20 +40,46 @@ watch(
 </script>
 
 <style scoped>
-.msg-box {
+.box-container {
   position: fixed;
-  top: 2vh;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  z-index: 9999;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  pointer-events: none;
+}
+
+.msg-box {
+  margin: 2vh 0;
   background: #fafafa;
   box-shadow: 0 0 16px #00000018;
   border-radius: 4px;
   padding: 1.5vh 2vw;
+
   z-index: 9999;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 
   width: 90%;
   max-width: 400px;
   box-sizing: border-box;
+
+  pointer-events: all;
+
+  transition: all 0.15s ease;
+}
+
+.msg-box:active {
+  transform: scale(0.9);
 }
 
 .note {
@@ -64,16 +98,24 @@ watch(
   transition: all 0.25s ease;
 }
 
-.msg-enter-from,
-.msg-leave-to {
+.msg-enter-from {
   opacity: 0;
-  transform: translate(-50%, -10px);
+  transform: translateY(-10px);
 }
 
-.msg-enter-to,
+.msg-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .msg-leave-from {
   opacity: 1;
-  transform: translate(-50%, 0);
+  transform: translateY(0);
+}
+
+.msg-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 
 @media (max-width: 350px) {
