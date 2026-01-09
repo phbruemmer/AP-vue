@@ -1,7 +1,13 @@
 <template>
   <div class="box-container">
     <Transition name="msg">
-      <div class="msg-box" @click="close()" v-if="props.isOpen">
+      <div
+        class="msg-box"
+        @click="close()"
+        @touchstart="onTouchStart($event)"
+        @touchend="onTouchEnd($event)"
+        v-if="props.isOpen"
+      >
         <p>{{ title }}</p>
         <p class="note">
           <slot></slot>
@@ -12,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { watch } from "vue";
+import { ref, watch } from "vue";
 
 const props = defineProps<{
   title: string;
@@ -25,6 +31,32 @@ const close = () => {
   setTimeout(() => {
     emits("close");
   }, 100);
+};
+
+// Swipe to close
+const startY = ref<number>(0);
+const threshold = 50;
+
+const onTouchStart = (e: TouchEvent): void => {
+  if (e.touches.length > 0 && e.touches[0]) {
+    startY.value = e.touches[0].clientY;
+  }
+};
+
+const onTouchEnd = (e: TouchEvent): void => {
+  if (e.changedTouches.length > 0 && e.changedTouches[0]) {
+    const endY = e.changedTouches[0].clientY;
+    const deltaY = startY.value - endY;
+
+    if (deltaY > threshold) {
+      // Execute swipe up
+      swipeUp();
+    }
+  }
+};
+
+const swipeUp = (): void => {
+  emits("close");
 };
 
 watch(
