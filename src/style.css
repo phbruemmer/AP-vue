@@ -3,6 +3,8 @@
   line-height: 1.5;
   font-weight: 400;
 
+  touch-action: manipulation;
+
   scroll-behavior: smooth;
   overflow-x: hidden;
   overscroll-behavior: none;

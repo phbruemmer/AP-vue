@@ -66,7 +66,7 @@ p {
 @media (max-width: 900px) {
   .section-container {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     padding: 5vh 6vw;
     text-align: center;
   }

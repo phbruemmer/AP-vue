@@ -135,6 +135,8 @@ const months = [
   "Dezember",
 ];
 
+const FIVE_WEEK_CALENDAR = true;
+
 // MODAL - VARIABLES
 const isOpen = ref<boolean>(false);
 const modalTitle = ref<string>("");
@@ -160,7 +162,7 @@ const skipLimit = 6;
 
 // calendarMonth stores the current
 // calculated month.
-const calendarMonth = ref<[Date[]]>([[]]);
+const calendarMonth = ref<Date[][]>([[]]);
 
 // Well... today
 const today = new Date();
@@ -224,7 +226,7 @@ const recalculateMonth = (): void => {
   const week_iteration = ref<Date[]>([]);
   let i = 0;
 
-  calendarMonth.value = [[]];
+  calendarMonth.value = [];
 
   // Pushes the last few days of the last month
   // to fillup the first week
@@ -252,6 +254,9 @@ const recalculateMonth = (): void => {
   }
 
   calendarMonth.value.push(week_iteration.value);
+
+  if (calendarMonth.value.length == 6 && FIVE_WEEK_CALENDAR)
+    calendarMonth.value.shift();
 };
 
 // Resets the current CalendarView back to Today
@@ -345,26 +350,23 @@ h2 {
   padding: 0.5rem 1rem;
 }
 
-.calendar {
-  margin-top: 5vh;
-  padding: 2rem;
-  min-height: 28rem;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 2.5rem;
-}
-
 .calendar-container {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
   max-width: 100%;
   padding: 0 1rem;
+}
+
+.calendar {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2.5rem;
 }
 
 .btn-reset {
@@ -417,6 +419,7 @@ h2 {
 
 .arrow-hit-box {
   padding: 10px;
+  touch-action: manipulation;
   transition: all 0.2s ease;
 }
 
