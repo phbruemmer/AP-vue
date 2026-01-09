@@ -43,7 +43,7 @@
         ></path>
       </svg>
       <h2>Rechtsinformationen</h2>
-      <button @click="click()">Zurück</button>
+      <button @click="goBack()">Zurück</button>
     </div>
 
     <div class="content">
@@ -54,10 +54,9 @@
 
 <script lang="ts" setup>
 import DiagonalContainer from "../components/Legal/DiagonalContainer.vue";
-import router from "../router";
 
-const click = () => {
-  router.push("/");
+const goBack = () => {
+  window.location.href = "/";
 };
 </script>
 

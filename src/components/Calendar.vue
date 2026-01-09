@@ -642,6 +642,11 @@ thead th {
   color: #888;
 }
 
+.closed.today {
+  background-color: #0000002e;
+  color: #888;
+}
+
 @media (max-width: 768px) {
   .calendar-container {
     flex-direction: column;
