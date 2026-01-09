@@ -2,38 +2,7 @@
   <div class="center">
     <p class="note">{{ status }}</p>
     <div class="svg-container" v-if="showContent || showAppointments">
-      <svg
-        width="18px"
-        height="18px"
-        stroke-width="1"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        color="#000000"
-        @click="toggleInfo()"
-      >
-        <path
-          d="M12 11.5V16.5"
-          stroke="#000000"
-          stroke-width="1"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        ></path>
-        <path
-          d="M12 7.51L12.01 7.49889"
-          stroke="#000000"
-          stroke-width="1"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        ></path>
-        <path
-          d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-          stroke="#000000"
-          stroke-width="1"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        ></path>
-      </svg>
+      <infoIcon @click="toggleInfo()" />
     </div>
   </div>
 
@@ -94,6 +63,7 @@
 <script lang="ts" setup>
 import { onMounted, ref, watch } from "vue";
 import Modal from "../UI/Modal.vue";
+import infoIcon from "../icons/info.vue";
 
 // Info Variable
 const showInfo = ref<boolean>(false);
@@ -106,6 +76,7 @@ const showModal = ref<boolean>(false);
 
 const props = defineProps<{
   day: Date;
+  closedDay: boolean;
 }>();
 
 const emits = defineEmits<{
@@ -124,23 +95,33 @@ const showAppointments = ref<boolean>(true);
 
 const appointmentText = ref<string>("Keine Termine.");
 
+// Appointment Data
+const weekdayStatus = [
+  "Vormittags geöffnet",
+  "Vor- und Nachmittags geöffnet",
+  "Vormittags geöffnet",
+  "Vor- und Nachmittags geöffnet",
+  "Geschlossen - Erreichbar",
+  "Geschlossen",
+  "Geschlossen",
+];
+
 const updateStatus = () => {
+  if (props.closedDay) {
+    status.value = "Geschlossen";
+    showAppointments.value = false;
+    showContent.value = false;
+    return;
+  }
+
   const currentDay = (props.day.getDay() + 6) % 7;
 
-  if (currentDay == 0 || currentDay == 2) {
-    status.value = "Vormittags geöffnet";
+  if (currentDay <= 4) {
+    status.value = weekdayStatus[currentDay] || "Kein Eintrag";
     showContent.value = true;
     showAppointments.value = true;
-  } else if (currentDay == 1 || currentDay == 3) {
-    status.value = "Vor- und Nachmittags geöffnet";
-    showContent.value = true;
-    showAppointments.value = true;
-  } else if (currentDay == 4) {
-    status.value = "Geschlossen - Erreichbar";
-    showAppointments.value = true;
-    showContent.value = true;
   } else {
-    status.value = "Geschlossen";
+    status.value = weekdayStatus[currentDay] || "Kein Eintrag";
     showAppointments.value = false;
     showContent.value = false;
   }

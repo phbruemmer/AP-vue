@@ -33,7 +33,7 @@
               :class="{
                 today: checkToday(day),
                 'last-month': checkLastMonth(day),
-                weekend: checkWeekend(day),
+                closed: checkWeekend(day) || checkClosed(day),
                 'special-day': checkSpecialDay(day),
                 appointment: checkLocalStorage(day),
               }"
@@ -67,6 +67,7 @@
   <Modal :title="modalTitle" :is-open="isOpen" @close="isOpen = false">
     <CalendarSlot
       :day="modalDay"
+      :closed-day="checkClosed(modalDay)"
       @recalculate="recalculateMonth()"
       @invalidInput="showInvalidInputError()"
       @deletedLocalstorage="showDeleteLocalStorageMessage()"
@@ -80,9 +81,23 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
+import base from "../data/base.json";
+
 import Modal from "./UI/Modal.vue";
 import PopUp from "./UI/PopUp.vue";
 import CalendarSlot from "./Calendar/CalendarSlot.vue";
+
+// Calendar JSON interface
+type DateRange = [Date, Date];
+
+interface Calendar {
+  "closed-days": Date[];
+  "closed-periods": DateRange[];
+}
+const closed = ref<Calendar>({
+  "closed-days": [],
+  "closed-periods": [],
+});
 
 // PopUp Variables
 const popUpIsOpen = ref<boolean>(false);
@@ -221,8 +236,6 @@ const recalculateMonth = (): void => {
   // To get the first day of the week at the beginning of the month
   const monthStart = lastMonthLength - firstDayInMonth + 1;
 
-  console.log(firstDayInMonth);
-
   const week_iteration = ref<Date[]>([]);
   let i = 0;
 
@@ -324,9 +337,89 @@ const checkLocalStorage = (day: Date): boolean => {
   return data ? true : false;
 };
 
-onMounted(() => {
+// This function checks all the closed date ranges
+// for instance: 12.12.2025 - 24.12.2025
+const checkClosedPeriodsHelper = (day: Date) => {
+  return closed.value["closed-periods"].some(([start, end]) => {
+    const periodStart = start.getTime();
+    const periodEnd = end.getTime();
+    const dayTime = day.getTime();
+
+    return periodStart <= dayTime && periodEnd >= dayTime;
+  });
+};
+
+// This function checks all the closed days.
+const checkClosedDayHelper = (day: Date): boolean => {
+  return closed.value["closed-days"].some((dayDate) => {
+    return day.getTime() == dayDate.getTime();
+  });
+};
+
+// This function combines the results of the
+// helper functions to display the correct status.
+const checkClosed = (day: Date): boolean => {
+  return checkClosedDayHelper(day) || checkClosedPeriodsHelper(day);
+};
+
+// Loads calendar data from json file
+// and pushes it into the designated
+// 'closed' array.
+const loadCalendarJson = async () => {
+  const response = await fetch(`/${base}/data/calendar.json`);
+  const data = await response.json();
+
+  data["closed-days"].forEach((element: string) => {
+    const dateSplit = element.split(".");
+
+    if (dateSplit.length != 3) return;
+
+    closed.value["closed-days"].push(
+      new Date(
+        Number(dateSplit[2]),
+        Number(dateSplit[1]) - 1, // Js starts counting months from 0...
+        Number(dateSplit[0])
+      )
+    );
+  });
+
+  data["closed-periods"].forEach((element: string) => {
+    const dateSplit = element.split("-");
+
+    // In case element is an invalid period
+    if (!dateSplit[0] || !dateSplit[1]) return;
+
+    const firstDate = dateSplit[0].split(".");
+    const secondDate = dateSplit[1].split(".");
+
+    if (firstDate.length != 3) return;
+
+    closed.value["closed-periods"].push([
+      // Period Start
+      new Date(
+        Number(firstDate[2]), // Year
+        Number(firstDate[1]) - 1, // Month
+        Number(firstDate[0]) // Day
+      ),
+      // Period End
+      new Date(
+        Number(secondDate[2]),
+        Number(secondDate[1]) - 1,
+        Number(secondDate[0])
+      ),
+    ]);
+  });
+};
+
+onMounted(async () => {
   // Initial calculation
   recalculateMonth();
+  // Load calendar data from json
+  await loadCalendarJson();
+
+  // Test env.
+  const funny = new Date(2026, 0, 13);
+  console.log(checkClosed(funny));
 });
 </script>
 
@@ -514,11 +607,6 @@ thead th {
   background-color: #3fa58f38;
 }
 
-.weekend {
-  background-color: #0000001c;
-  color: #888;
-}
-
 .appointment {
   background-color: #318fe04a;
 }
@@ -545,6 +633,11 @@ thead th {
 }
 
 .last-month {
+  background-color: #0000001c;
+  color: #888;
+}
+
+.closed {
   background-color: #0000001c;
   color: #888;
 }
