@@ -18,16 +18,30 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from "vue";
+import { onUnmounted, ref, watch } from "vue";
 
 const props = defineProps<{
   title: string;
   isOpen: boolean;
+  duration?: number;
 }>();
 
-const emits = defineEmits(["close"]);
+const emits = defineEmits<{
+  (e: "close"): void;
+}>();
+
+let autoCloseTimer: ReturnType<typeof setTimeout> | null = null;
+
+const clearAutoCloseTimer = () => {
+  if (autoCloseTimer) {
+    clearTimeout(autoCloseTimer);
+    autoCloseTimer = null;
+  }
+};
 
 const close = () => {
+  clearAutoCloseTimer();
+
   setTimeout(() => {
     emits("close");
   }, 100);
@@ -56,19 +70,26 @@ const onTouchEnd = (e: TouchEvent): void => {
 };
 
 const swipeUp = (): void => {
+  clearAutoCloseTimer();
   emits("close");
 };
 
 watch(
   () => props.isOpen,
-  () => {
-    if (props.isOpen) {
-      setTimeout(() => {
+  (newVal) => {
+    clearAutoCloseTimer();
+    if (newVal) {
+      autoCloseTimer = setTimeout(() => {
         emits("close");
-      }, 4500);
+        autoCloseTimer = null;
+      }, props.duration || 4500);
     }
   }
 );
+
+onUnmounted(() => {
+  clearAutoCloseTimer();
+});
 </script>
 
 <style scoped>
