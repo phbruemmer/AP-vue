@@ -5,7 +5,7 @@
     <button @click="goBack()">Zurück</button>
   </div>
 
-  <div class="content">
+  <div class="content" v-if="renderData">
     <DiagonalContainer />
   </div>
 
@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import book from "../components/icons/book.vue";
 import DiagonalContainer from "../components/Legal/DiagonalContainer.vue";
 import pageTransition from "../components/transition/pageTransition.vue";
@@ -25,10 +25,12 @@ const goBack = () => {
   startTransition.value = true;
 };
 
-import { onMounted, nextTick } from "vue";
+const renderData = ref<boolean>(false);
 
-onMounted(() => {
-  nextTick(() => window.scrollTo(0, 0));
+onMounted(async () => {
+  setTimeout(() => {
+    renderData.value = true;
+  }, 1);
 });
 </script>
 
@@ -60,9 +62,5 @@ button:hover {
 .hero-section h2 {
   color: #fff;
   font-size: clamp(1rem, 4vw, 3.5rem);
-}
-
-.hero-section h1:hover {
-  cursor: default;
 }
 </style>

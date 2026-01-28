@@ -46,12 +46,4 @@ import Footer from "../components/Footer.vue";
 import pageTransition from "../components/transition/pageTransition.vue";
 </script>
 
-<style scoped>
-section {
-  scroll-margin-top: 30vh;
-}
-
-.start {
-  scroll-margin-top: 25vh;
-}
-</style>
+<style scoped></style>

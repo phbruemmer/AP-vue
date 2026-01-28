@@ -44,8 +44,6 @@
 import clockIcon from "./icons/clock.vue";
 import TextIcon from "./icons/text.vue";
 import holidaysIcon from "./icons/holidays.vue";
-
-import { ref } from "vue";
 </script>
 
 <style scoped>
