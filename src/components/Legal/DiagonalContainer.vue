@@ -15,28 +15,28 @@
 
         <div class="info-grid">
           <div class="content">
-            <div><b>Telefon:</b></div>
-            <div>+49 123 456789</div>
+            <div class="label">Telefon</div>
+            <div class="value">+49 123 456789</div>
           </div>
 
           <div class="content">
-            <div><b>E-Mail:</b></div>
-            <div>info@musterfirma.de</div>
+            <div class="label">E-Mail</div>
+            <div class="value">info@email.de</div>
           </div>
 
           <div class="content">
-            <div><b>Website:</b></div>
-            <div>www.musterfirma.de</div>
+            <div class="label">Website</div>
+            <div class="value">www.website.de</div>
           </div>
 
           <div class="content">
-            <div><b>Vertreten durch:</b></div>
-            <div>Max Mustermann</div>
+            <div class="label">Vertreten durch</div>
+            <div class="value">Hans Nachname</div>
           </div>
 
           <div class="content">
-            <div><b>Umsatzsteuer-ID:</b></div>
-            <div>DE123456789</div>
+            <div class="label">Umsatzsteuer ID:</div>
+            <div class="value">123 456 789</div>
           </div>
         </div>
       </div>
@@ -74,54 +74,104 @@
 
 <style scoped>
 p {
-  color: #444;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 1rem;
 }
 
 .section-container {
   position: relative;
   z-index: 100;
+  padding: 4rem 0;
+  text-align: left;
+  background: linear-gradient(180deg, #fafafa, #f4f6f8);
 }
 
 .container-wrapper {
   display: flex;
   flex-direction: column;
-  position: relative;
-  z-index: 110;
-  padding: 0 4vw;
+  gap: 4rem;
+  padding: 0 5vw;
 }
 
 .container {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 2rem;
-  border-radius: 12px;
+  max-width: 620px;
+  padding: 2.5rem;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   transition: all 0.2s ease;
 }
 
-.right {
-  text-align: right;
-  margin-left: auto;
-  margin-right: 0;
+.container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
 }
 
 .left {
-  text-align: left;
   margin-right: auto;
-  margin-left: 0;
+  border-left: 4px solid #2a816e;
 }
 
-.container h1 {
-  font-size: clamp(2rem, 6vw, 5rem);
+.right {
+  margin-left: auto;
+  text-align: right;
+  border-right: 4px solid #2a816e;
+}
+
+.container h2 {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  color: #111;
+}
+
+.container b {
+  color: #222;
 }
 
 .info-grid {
-  display: flex;
-  justify-content: left;
-  flex-direction: column;
-  gap: 2vh;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  row-gap: 0.75rem;
+  column-gap: 1.5rem;
+  margin-top: 1.5rem;
 }
 
-.info-grid div b {
-  display: inline-block;
+.label {
+  font-weight: 600;
+  color: #333;
+}
+
+.value {
+  color: #555;
+}
+
+.info-grid .content {
+  display: contents;
+}
+
+.info-grid .content div:first-child {
+  font-weight: 600;
+  color: #333;
+}
+
+.info-grid .content div:last-child {
+  color: #555;
+}
+
+@media (max-width: 600px) {
+  .section-container {
+    text-align: left;
+  }
+
+  .right {
+    text-align: left;
+    border-right: none;
+    border-left: 4px solid #2a816e;
+  }
+
+  .container {
+    padding: 2rem;
+  }
 }
 </style>
