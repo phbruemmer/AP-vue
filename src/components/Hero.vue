@@ -34,7 +34,8 @@ const scrollTo = (to: string) => {
   position: relative;
   height: 80vh;
   width: 100vw;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)),
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)),
     url("../assets/background.png");
   background-size: cover;
   background-position: center;
@@ -57,8 +58,11 @@ const scrollTo = (to: string) => {
 }
 
 .main-title {
+  font-family: "Bebas";
+  font-weight: 100;
+  font-size: 4.5rem;
+
   margin: 0.5rem 0 0;
-  font-size: 3rem;
   text-align: center;
   color: #fff;
 }

@@ -188,8 +188,8 @@ const calendarView = ref<Date>(
   new Date(
     today.getFullYear(),
     today.getMonth() + monthCount.value,
-    today.getDate()
-  )
+    today.getDate(),
+  ),
 );
 
 // This function generates the current month.
@@ -201,14 +201,14 @@ const recalculateMonth = (): void => {
   const month = new Date(
     calendarView.value.getFullYear(),
     calendarView.value.getMonth() + 1,
-    0
+    0,
   );
 
   // Last Month
   const lastMonth = new Date(
     calendarView.value.getFullYear(),
     calendarView.value.getMonth(),
-    0
+    0,
   );
 
   // Get the first weekday of the month
@@ -217,7 +217,7 @@ const recalculateMonth = (): void => {
   const firstDayInMonthUnformatted = new Date(
     calendarView.value.getFullYear(),
     calendarView.value.getMonth(),
-    1
+    1,
   ).getDay();
 
   // Mapped from 0: Sunday, 1: Monday etc.
@@ -245,7 +245,7 @@ const recalculateMonth = (): void => {
   // to fillup the first week
   for (let day = monthStart; day <= lastMonthLength; day++) {
     week_iteration.value.push(
-      new Date(lastMonth.getFullYear(), lastMonth.getMonth(), day)
+      new Date(lastMonth.getFullYear(), lastMonth.getMonth(), day),
     );
     i++;
   }
@@ -260,8 +260,8 @@ const recalculateMonth = (): void => {
       new Date(
         calendarView.value.getFullYear(),
         calendarView.value.getMonth(),
-        day
-      )
+        day,
+      ),
     );
     i++;
   }
@@ -278,7 +278,7 @@ const reset = (): void => {
   calendarView.value = new Date(
     today.getFullYear(),
     today.getMonth() + monthCount.value,
-    today.getDate()
+    today.getDate(),
   );
   recalculateMonth();
 };
@@ -289,7 +289,7 @@ const nextMonth = (): void => {
   calendarView.value = new Date(
     today.getFullYear(),
     today.getMonth() + monthCount.value,
-    today.getDate()
+    today.getDate(),
   );
   recalculateMonth();
 };
@@ -300,7 +300,7 @@ const goLastMonth = (): void => {
   calendarView.value = new Date(
     today.getFullYear(),
     today.getMonth() + monthCount.value,
-    today.getDate()
+    today.getDate(),
   );
 
   recalculateMonth();
@@ -378,8 +378,8 @@ const loadCalendarJson = async () => {
       new Date(
         Number(dateSplit[2]),
         Number(dateSplit[1]) - 1, // Js starts counting months from 0...
-        Number(dateSplit[0])
-      )
+        Number(dateSplit[0]),
+      ),
     );
   });
 
@@ -399,13 +399,13 @@ const loadCalendarJson = async () => {
       new Date(
         Number(firstDate[2]), // Year
         Number(firstDate[1]) - 1, // Month
-        Number(firstDate[0]) // Day
+        Number(firstDate[0]), // Day
       ),
       // Period End
       new Date(
         Number(secondDate[2]),
         Number(secondDate[1]) - 1,
-        Number(secondDate[0])
+        Number(secondDate[0]),
       ),
     ]);
   });
@@ -425,7 +425,9 @@ onMounted(async () => {
 
 <style scoped>
 h2 {
-  font-size: 2rem;
+  font-family: "Bebas";
+  font-size: 2.2rem;
+  letter-spacing: 2px;
 }
 
 .title {
@@ -439,8 +441,8 @@ h2 {
   background: #2c3f50;
   border-radius: 2px 0 0 2px;
   width: clamp(20%, 20vw, 100%);
-  color: #fff;
   padding: 0.5rem 1rem;
+  color: #fff;
 }
 
 .calendar-container {
@@ -484,7 +486,9 @@ h2 {
   cursor: pointer;
   user-select: none;
 
-  transition: all 0.15s ease, transform 0.05s ease;
+  transition:
+    all 0.15s ease,
+    transform 0.05s ease;
 }
 
 .btn-reset:hover {
@@ -557,6 +561,9 @@ caption {
   font-size: 1.25rem;
   font-weight: 600;
   color: #111827;
+
+  font-family: "Bebas";
+  letter-spacing: 2px;
 }
 
 thead th {

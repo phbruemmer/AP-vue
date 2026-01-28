@@ -17,8 +17,10 @@
 
 <style scoped>
 h2 {
+  font-family: "Bebas";
+  font-size: 2.2rem;
+  letter-spacing: 2px;
   margin-bottom: 1rem;
-  font-size: 2rem;
 }
 
 p {

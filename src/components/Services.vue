@@ -34,7 +34,9 @@
 
 <style scoped>
 h2 {
-  font-size: 2rem;
+  font-family: "Bebas";
+  font-size: 2.2rem;
+  letter-spacing: 2px;
 }
 
 .section-title {
@@ -66,6 +68,7 @@ h2 {
 }
 
 .block .title {
+  font-family: "Bebas";
   font-size: 1.2rem;
   font-weight: 600;
   color: #444;

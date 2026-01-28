@@ -31,6 +31,8 @@
 
   <!-- Footer -->
   <Footer />
+
+  <pageTransition type="open" />
 </template>
 
 <script lang="ts" setup>
@@ -41,6 +43,7 @@ import AppointmentSelection from "../components/AppointmentSelection.vue";
 import Services from "../components/Services.vue";
 import Calendar from "../components/Calendar.vue";
 import Footer from "../components/Footer.vue";
+import pageTransition from "../components/transition/pageTransition.vue";
 </script>
 
 <style scoped>

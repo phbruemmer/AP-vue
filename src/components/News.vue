@@ -55,12 +55,20 @@ onMounted(() => {
 
 <style scoped>
 h2 {
-  font-size: 2rem;
+  font-family: "Bebas";
+  font-size: 2.2rem;
+
+  letter-spacing: 2px;
+
+  margin: 2vh;
   color: #333;
   text-align: center;
 }
 
 h3 {
+  font-family: "Bebas";
+  font-weight: 100;
+  font-size: 1.4rem;
   position: relative;
   display: inline-block;
   margin-bottom: 12px;
@@ -82,6 +90,7 @@ h3 {
 }
 
 .description {
+  margin: 0;
   max-width: 320px;
   text-align: center;
 }
