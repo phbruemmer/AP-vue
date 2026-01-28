@@ -22,24 +22,13 @@
       <div class="footer-section">
         <h4>Rechtliches</h4>
         <ul>
-          <li>
-            <router-link :to="{ path: '/legal' }"> Informationen </router-link>
-          </li>
-          <li>
-            <router-link :to="{ path: '/legal', hash: '#impressum' }">
-              Impressum
-            </router-link>
-          </li>
-          <li>
-            <router-link :to="{ path: '/legal', hash: '#datenschutz' }">
-              Datenschutz
-            </router-link>
-          </li>
-          <li>
-            <router-link :to="{ path: '/legal', hash: '#haftungsausschluss' }">
-              Haftungsausschluss
-            </router-link>
-          </li>
+          <li class="clickable" @click="goTo('/legal')">Informationen</li>
+
+          <li class="clickable" @click="goTo('/legal')">Impressum</li>
+
+          <li class="clickable" @click="goTo('/legal')">Datenschutz</li>
+
+          <li class="clickable" @click="goTo('/legal')">Haftungsausschluss</li>
         </ul>
       </div>
     </div>
@@ -48,16 +37,32 @@
       &copy; {{ new Date().getFullYear() }} Hohn GmbH. Alle Rechte vorbehalten.
     </div>
   </footer>
+
+  <pageTransition
+    type="close"
+    :destination="destination"
+    v-if="startTransition"
+  />
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { ref } from "vue";
+import pageTransition from "./transition/pageTransition.vue";
+
+const destination = ref<string>("");
+const startTransition = ref<boolean>(false);
+
+const goTo = (dest: string) => {
+  destination.value = dest;
+  startTransition.value = true;
+};
+</script>
 
 <style scoped>
 .footer {
   background-color: #2c3f50;
   color: #333;
-  font-family: "Helvetica Neue", Arial, sans-serif;
-  font-size: 0.9rem;
+  font-family: "Poppins", Arial, sans-serif;
   width: 100vw;
   padding: 3rem 0;
   margin-top: 15vh;
@@ -73,16 +78,22 @@
 }
 
 .footer-section h4 {
-  margin-bottom: 0.8rem;
+  font-family: "Bebas";
   font-weight: 700;
-  font-size: 1.1rem;
-  text-align: left;
+  font-size: 1.3rem;
+
   color: #fff;
+  text-align: left;
+  letter-spacing: 1px;
+
+  margin-bottom: 0.8rem;
 }
 
 .footer-section p,
 .footer-section a,
 .footer-section li {
+  font-size: 0.9rem;
+
   color: #eee;
   text-decoration: none;
   margin: 0;
@@ -108,6 +119,11 @@
   margin-top: 3rem;
   color: #fff;
   font-size: 0.8rem;
+}
+
+.clickable:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {
