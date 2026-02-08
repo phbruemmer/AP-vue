@@ -1,10 +1,4 @@
 <template>
-  <div class="title">
-    <div class="title-wrapper">
-      <h2>Kalender</h2>
-    </div>
-  </div>
-
   <div class="calendar-container">
     <div class="calendar">
       <table>
@@ -424,27 +418,6 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-h2 {
-  font-family: "Bebas";
-  font-size: 2.2rem;
-  letter-spacing: 2px;
-}
-
-.title {
-  width: 100vw;
-  margin-top: 10vh;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.title-wrapper {
-  background: #2c3f50;
-  border-radius: 2px 0 0 2px;
-  width: clamp(20%, 20vw, 100%);
-  padding: 0.5rem 1rem;
-  color: #fff;
-}
-
 .calendar-container {
   display: flex;
   align-items: center;
