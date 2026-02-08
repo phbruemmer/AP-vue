@@ -7,7 +7,7 @@
     <div class="hero-content">
       <h2 class="sub-title">Your Sub-title Here</h2>
       <h1 class="main-title">Your Main Title Here</h1>
-      <div class="arrow-container">
+      <div class="arrow-container" v-if="isTop">
         <span class="arrow-down" @click="scrollTo('start')"></span>
       </div>
     </div>
@@ -15,7 +15,11 @@
 </template>
 
 <script lang="ts" setup>
+import { onMounted, onUnmounted, ref } from "vue";
 import Navbar from "./Navbar.vue";
+
+const THRESHOLD = 150;
+const isTop = ref<boolean>(false);
 
 const scrollTo = (to: string) => {
   const element = document.getElementById(to);
@@ -24,6 +28,19 @@ const scrollTo = (to: string) => {
     element.scrollIntoView();
   }
 };
+
+const checkScroll = () => {
+  isTop.value = window.scrollY <= THRESHOLD;
+};
+
+onMounted(() => {
+  checkScroll();
+  window.addEventListener("scroll", checkScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", checkScroll);
+});
 </script>
 <style scoped>
 .navbar {
