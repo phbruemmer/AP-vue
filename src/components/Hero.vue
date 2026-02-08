@@ -7,9 +7,12 @@
     <div class="hero-content">
       <h2 class="sub-title">Your Sub-title Here</h2>
       <h1 class="main-title">Your Main Title Here</h1>
-      <div class="arrow-container" v-if="isTop">
-        <span class="arrow-down" @click="scrollTo('start')"></span>
-      </div>
+
+      <transition name="arrow">
+        <div class="arrow-container" @click="scrollTo('start')" v-if="isTop">
+          <span class="arrow-down"></span>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -87,6 +90,9 @@ onUnmounted(() => {
 .arrow-container {
   position: absolute;
   bottom: 2.5rem;
+  background: #00000048;
+  padding: 10px 15px;
+  border-radius: 50px;
   display: inline-block;
   transition: all 0.2s ease;
 }
@@ -105,5 +111,37 @@ onUnmounted(() => {
   transform: rotate(45deg);
   border-radius: 1px;
   margin: 5px;
+}
+
+.arrow-enter-from {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.arrow-enter-active {
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+}
+
+.arrow-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.arrow-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.arrow-leave-active {
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.arrow-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
 }
 </style>
