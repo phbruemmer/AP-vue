@@ -50,7 +50,7 @@ p {
   background-color: transparent;
   color: #fff;
   padding: 1rem 1.8rem;
-  border: 2px dotted #fff;
+  border: 2px solid #fff;
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.2s ease;

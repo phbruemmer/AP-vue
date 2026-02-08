@@ -5,9 +5,7 @@
   <!-- Container Content -->
 
   <div class="content-container">
-    <div class="content-wrapper">
-      <ListComponent />
-    </div>
+    <ListComponent />
   </div>
 </template>
 
@@ -29,34 +27,11 @@ h2 {
 
 .content-container {
   width: 100vw;
-  min-height: 45vh;
+  min-height: 40vh;
   background: #2c3f50;
-}
 
-.content-wrapper {
   display: flex;
-  justify-content: space-around;
-  align-items: stretch;
-  padding-top: 8vh;
-}
-
-.block {
-  max-width: 280px;
-  display: grid;
-  grid-template-rows: 46px 40px 1fr;
-  row-gap: 12px;
-  justify-items: center;
-  align-items: start;
-  text-align: center;
-  transition: all 0.2s ease;
-}
-
-.block:hover {
-  transform: translateY(-3px);
-}
-
-.content {
-  margin-top: 15px;
+  align-items: center;
 }
 
 @media (max-width: 480px) {
