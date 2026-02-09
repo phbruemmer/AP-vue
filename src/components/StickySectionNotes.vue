@@ -15,33 +15,53 @@
         <div ref="firstTarget">
           <StandardTextBox />
 
-          <div class="Mobile-CTA-Container" v-if="isMobile">
-            <h2>Placeholder</h2>
-          </div>
+          <transition name="appear">
+            <div
+              class="mobile-CTA-Container"
+              v-if="isMobile && active == 'first'"
+            >
+              <div class="mobile-container-bg first right-mobile"></div>
+            </div>
+          </transition>
         </div>
 
         <div ref="secondTarget">
           <StandardTextBox />
 
-          <div class="Mobile-CTA-Container" v-if="isMobile">
-            <h2>Placeholder</h2>
-          </div>
+          <transition name="appear">
+            <div
+              class="mobile-CTA-Container"
+              v-if="isMobile && active == 'second'"
+            >
+              <div class="mobile-container-bg second left-mobile"></div>
+            </div>
+          </transition>
         </div>
 
         <div ref="thirdTarget">
           <StandardTextBox />
 
-          <div class="Mobile-CTA-Container" v-if="isMobile">
-            <h2>Placeholder</h2>
-          </div>
+          <transition name="appear">
+            <div
+              class="mobile-CTA-Container"
+              v-if="isMobile && active == 'third'"
+            >
+              <div class="mobile-container-bg third right-mobile"></div>
+            </div>
+          </transition>
         </div>
 
         <div ref="fourthTarget">
           <StandardTextBox />
 
-          <div class="Mobile-CTA-Container" v-if="isMobile">
-            <h2>Placeholder</h2>
-          </div>
+          <transition name="appear">
+            <div
+              class="mobile-CTA-Container"
+              v-if="isMobile && active == 'fourth'"
+            >
+              <div class="mobile-container-bg fourth left-mobile"></div>
+            </div>
+          </transition>
         </div>
       </div>
       <div class="right">
@@ -150,6 +170,7 @@ const checkSize = () => {
 };
 
 onMounted(() => {
+  checkSize();
   window.addEventListener("resize", checkSize);
 });
 
@@ -256,6 +277,35 @@ onUnmounted(() => {
   transform: translateX(-50%);
 }
 
+/* Mobile CTA */
+.mobile-CTA-Container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mobile-container-bg {
+  position: absolute;
+
+  width: 20rem;
+  height: 20rem;
+
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0.6;
+}
+
+.right-mobile {
+  transform: translateX(-50%);
+}
+
+.left-mobile {
+  transform: translateX(50%);
+}
+
 /*
 # # # # #               # # # # #
             Lower-Center
@@ -348,6 +398,22 @@ onUnmounted(() => {
   transform: translateX(-50%) scale(1);
 }
 
+/* Appear Animation */
+.appear-enter-active,
+.appear-leave-active {
+  transition: all 0.3s ease;
+}
+
+.appear-enter-from,
+.appear-leave-to {
+  transform: scale(0);
+}
+
+.appear-enter-to,
+.appear-leave-from {
+  transform: scale(1);
+}
+
 @media (max-width: 1024px) {
   .cta-element {
     top: 15%;
@@ -365,3 +431,15 @@ onUnmounted(() => {
   }
 }
 </style>
+
+<!--
+
+1: sliding / rotating blocks coming into view - CTA appears in the center
+
+2: CTA elements appear one by one (total 3 elements)
+
+3: circular CTA element appear
+
+4: Blocks appear at both edges - centered CTA appears
+
+-->
