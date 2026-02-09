@@ -12,17 +12,45 @@
 
     <div class="center">
       <div class="left">
-        <StandardTextBox ref="stdBox1" />
+        <div ref="firstTarget">
+          <StandardTextBox />
+        </div>
 
-        <StandardTextBox ref="stdBox2" />
+        <div ref="secondTarget">
+          <StandardTextBox />
+        </div>
 
-        <StandardTextBox ref="stdBox3" />
+        <div ref="thirdTarget">
+          <StandardTextBox />
+        </div>
 
-        <StandardTextBox ref="stdBox4" />
+        <div ref="fourthTarget">
+          <StandardTextBox />
+        </div>
       </div>
       <div class="right">
-        <div class="cta-element"></div>
+        <div
+          class="cta-element"
+          :class="{
+            first: firstTargetVisible,
+            second: secondTargetVisible,
+            third: thirdTargetVisible,
+            fourth: fourthTargetVisible,
+          }"
+        >
+          <div class="cta-content" v-if="active == 'first'"></div>
+
+          <div class="cta-content" v-if="active == 'second'"></div>
+
+          <div class="cta-content" v-if="active == 'third'"></div>
+
+          <div class="cta-content" v-if="active == 'fourth'"></div>
+        </div>
       </div>
+    </div>
+
+    <div class="lower-center">
+      <AppointmentCTA />
     </div>
 
     <div class="bottom"></div>
@@ -30,7 +58,50 @@
 </template>
 
 <script lang="ts" setup>
+import { useElementVisibility } from "@vueuse/core";
+import { ref, useTemplateRef, watch } from "vue";
+
 import StandardTextBox from "./TextBoxes/StandardTextBox.vue";
+import AppointmentCTA from "./templates/AppointmentCTA.vue";
+
+type Active = null | "first" | "second" | "third" | "fourth";
+const active = ref<Active>(null);
+
+const firstTarget = useTemplateRef("firstTarget");
+const firstTargetVisible = useElementVisibility(firstTarget, {
+  threshold: 0.75,
+});
+
+const secondTarget = useTemplateRef("secondTarget");
+const secondTargetVisible = useElementVisibility(secondTarget, {
+  threshold: 0.75,
+});
+
+const thirdTarget = useTemplateRef("thirdTarget");
+const thirdTargetVisible = useElementVisibility(thirdTarget, {
+  threshold: 0.75,
+});
+
+const fourthTarget = useTemplateRef("fourthTarget");
+const fourthTargetVisible = useElementVisibility(fourthTarget, {
+  threshold: 0.75,
+});
+
+watch(
+  [
+    firstTargetVisible,
+    secondTargetVisible,
+    thirdTargetVisible,
+    fourthTargetVisible,
+  ],
+  ([first, second, third, fourth]) => {
+    if (first) active.value = "first";
+    else if (second) active.value = "second";
+    else if (third) active.value = "third";
+    else if (fourth) active.value = "fourth";
+    else active.value = null;
+  },
+);
 </script>
 
 <style scoped>
@@ -96,15 +167,47 @@ import StandardTextBox from "./TextBoxes/StandardTextBox.vue";
   justify-content: center;
 }
 
-.right .cta-element {
+.cta-element {
   width: 30rem;
   height: 30rem;
 
   border-radius: 50% 50% 2px 50%;
 
-  background: #2e685b;
   position: sticky;
   top: 25%;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  transition: all 0.2s ease;
+}
+
+.cta-content {
+  width: 20rem;
+  height: 40%;
+  border-radius: 16px;
+
+  background: #ffffff;
+  box-shadow: 0 4px 4px #00000011;
+
+  transform: translateX(-50%);
+}
+
+/*
+# # # # #               # # # # #
+            Lower-Center
+# # # # #               # # # # #
+*/
+
+.lower-center {
+  background: #5389b90e;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding-top: 16vh;
 }
 
 /*
@@ -117,5 +220,26 @@ import StandardTextBox from "./TextBoxes/StandardTextBox.vue";
   height: 40vh;
   background: linear-gradient(to top, #7753b918 40%, #5389b90e 100%);
   clip-path: ellipse(100% 100% at 50% 0%);
+}
+
+/* Bubble Colors */
+.first {
+  background-color: #b888fa;
+  box-shadow: 0 4px 4px #b788fa23;
+}
+
+.second {
+  background-color: #276fbf;
+  box-shadow: 0 4px 4px #276ebf23;
+}
+
+.third {
+  background-color: #d64550;
+  box-shadow: 0 4px 4px #d645512a;
+}
+
+.fourth {
+  background-color: #f1c40f;
+  box-shadow: 0 4px 4px #f1c40f29;
 }
 </style>
