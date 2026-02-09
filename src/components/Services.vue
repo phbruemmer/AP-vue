@@ -49,6 +49,14 @@
     >
       Mehr laden
     </p>
+
+    <p
+      class="load-more"
+      @click="contentLoaded = false"
+      v-if="isMobile && contentLoaded"
+    >
+      Weniger anzeigen
+    </p>
   </div>
 </template>
 
@@ -64,6 +72,7 @@ const checkSize = () => {
 };
 
 onMounted(() => {
+  checkSize();
   window.addEventListener("resize", checkSize);
 });
 
