@@ -42,9 +42,10 @@
 .text-block p {
   font-size: clamp(1rem, 3vw, 1.2rem);
   line-height: 1.6;
+  z-index: 9999;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 450px) {
   .text-block {
     max-width: 250px;
   }
