@@ -32,19 +32,43 @@
         <div
           class="cta-element"
           :class="{
-            first: firstTargetVisible,
-            second: secondTargetVisible,
-            third: thirdTargetVisible,
-            fourth: fourthTargetVisible,
+            first: active == 'first',
+            second: active == 'second',
+            third: active == 'third',
+            fourth: active == 'fourth',
           }"
         >
-          <div class="cta-content" v-if="active == 'first'"></div>
+          <Transition name="cta">
+            <div
+              v-if="active === 'first'"
+              key="first"
+              class="cta-content first-content"
+            />
+          </Transition>
 
-          <div class="cta-content" v-if="active == 'second'"></div>
+          <Transition name="cta">
+            <div
+              v-if="active === 'second'"
+              key="second"
+              class="cta-content second-content"
+            />
+          </Transition>
 
-          <div class="cta-content" v-if="active == 'third'"></div>
+          <Transition name="cta">
+            <div
+              v-if="active === 'third'"
+              key="third"
+              class="cta-content third-content"
+            />
+          </Transition>
 
-          <div class="cta-content" v-if="active == 'fourth'"></div>
+          <Transition name="cta">
+            <div
+              v-if="active === 'fourth'"
+              key="fourth"
+              class="cta-content fourth-content"
+            />
+          </Transition>
         </div>
       </div>
     </div>
@@ -95,11 +119,10 @@ watch(
     fourthTargetVisible,
   ],
   ([first, second, third, fourth]) => {
-    if (first) active.value = "first";
-    else if (second) active.value = "second";
+    if (fourth) active.value = "fourth";
     else if (third) active.value = "third";
-    else if (fourth) active.value = "fourth";
-    else active.value = null;
+    else if (second) active.value = "second";
+    else if (first) active.value = "first";
   },
 );
 </script>
@@ -180,12 +203,14 @@ watch(
   justify-content: flex-start;
   align-items: center;
 
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .cta-content {
-  width: 20rem;
-  height: 40%;
+  position: absolute;
+
+  width: 30rem;
+  height: 60%;
   border-radius: 16px;
 
   background: #ffffff;
@@ -241,5 +266,48 @@ watch(
 .fourth {
   background-color: #f1c40f;
   box-shadow: 0 4px 4px #f1c40f29;
+}
+
+/* CTA-Content style */
+.first-content {
+  background-image: url("https://wallpapercave.com/wp/wp4854991.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.second-content {
+  background-image: url("https://www.pixelstalk.net/wp-content/uploads/2016/12/Free-Beautiful-Landscape-Image.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.third-content {
+  background-image: url("https://th.bing.com/th/id/R.91b787ec89a49140e9c73be53271a03b?rik=Yjdehc0JKgaohA&pid=ImgRaw&r=0");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.fourth-content {
+  background-image: url("https://img1.akspic.ru/crops/4/0/3/2/22304/22304-otrazhenie-pejzazhi_gor-priroda-prirodnyj_zapovednik-dikaya_mestnost-1920x1080.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* CTA-Content animation */
+.cta-enter-active,
+.cta-leave-active {
+  transition: all 0.3s ease;
+}
+
+.cta-enter-from,
+.cta-leave-to {
+  opacity: 0;
+  transform: translateX(0) scale(50%);
+}
+
+.cta-enter-to,
+.cta-leave-from {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
 }
 </style>
