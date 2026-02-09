@@ -14,18 +14,34 @@
       <div class="left">
         <div ref="firstTarget">
           <StandardTextBox />
+
+          <div class="Mobile-CTA-Container" v-if="isMobile">
+            <h2>Placeholder</h2>
+          </div>
         </div>
 
         <div ref="secondTarget">
           <StandardTextBox />
+
+          <div class="Mobile-CTA-Container" v-if="isMobile">
+            <h2>Placeholder</h2>
+          </div>
         </div>
 
         <div ref="thirdTarget">
           <StandardTextBox />
+
+          <div class="Mobile-CTA-Container" v-if="isMobile">
+            <h2>Placeholder</h2>
+          </div>
         </div>
 
         <div ref="fourthTarget">
           <StandardTextBox />
+
+          <div class="Mobile-CTA-Container" v-if="isMobile">
+            <h2>Placeholder</h2>
+          </div>
         </div>
       </div>
       <div class="right">
@@ -83,7 +99,7 @@
 
 <script lang="ts" setup>
 import { useElementVisibility } from "@vueuse/core";
-import { ref, useTemplateRef, watch } from "vue";
+import { onMounted, onUnmounted, ref, useTemplateRef, watch } from "vue";
 
 import StandardTextBox from "./TextBoxes/StandardTextBox.vue";
 import Calendar from "./Calendar.vue";
@@ -91,24 +107,26 @@ import Calendar from "./Calendar.vue";
 type Active = null | "first" | "second" | "third" | "fourth";
 const active = ref<Active>(null);
 
+const isMobile = ref<boolean>(false);
+
 const firstTarget = useTemplateRef("firstTarget");
 const firstTargetVisible = useElementVisibility(firstTarget, {
-  threshold: 0.75,
+  threshold: 0.9,
 });
 
 const secondTarget = useTemplateRef("secondTarget");
 const secondTargetVisible = useElementVisibility(secondTarget, {
-  threshold: 0.75,
+  threshold: 0.9,
 });
 
 const thirdTarget = useTemplateRef("thirdTarget");
 const thirdTargetVisible = useElementVisibility(thirdTarget, {
-  threshold: 0.75,
+  threshold: 0.9,
 });
 
 const fourthTarget = useTemplateRef("fourthTarget");
 const fourthTargetVisible = useElementVisibility(fourthTarget, {
-  threshold: 0.75,
+  threshold: 0.9,
 });
 
 watch(
@@ -125,6 +143,19 @@ watch(
     else if (first) active.value = "first";
   },
 );
+
+// Mobile integration
+const checkSize = () => {
+  isMobile.value = window.innerWidth <= 924;
+};
+
+onMounted(() => {
+  window.addEventListener("resize", checkSize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", checkSize);
+});
 </script>
 
 <style scoped>
@@ -141,7 +172,7 @@ watch(
 
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .top .cta {
@@ -149,18 +180,24 @@ watch(
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding: 2rem 1rem;
+  text-align: center;
 }
 
 .top .cta h2 {
   font-family: "Bebas";
-  font-size: 3.5rem;
+  font-size: clamp(2rem, 5vw, 3.5rem);
   letter-spacing: 1px;
-  margin: 1vh;
-  width: 500px;
+  margin: 1vh 0;
+  width: 100%;
+  max-width: 500px;
 }
 
 .top .cta p {
-  width: 350px;
+  width: 100%;
+  max-width: 500px;
+  font-size: clamp(1rem, 2.5vw, 1.125rem);
+  line-height: 1.5;
 }
 
 /*
@@ -188,19 +225,19 @@ watch(
 .right {
   display: flex;
   justify-content: center;
+  align-items: flex-start;
 }
 
 .cta-element {
-  width: 30rem;
-  height: 30rem;
+  width: clamp(18rem, 30vw, 30rem);
+  aspect-ratio: 1 / 1;
 
   border-radius: 50% 50% 2px 50%;
-
   position: sticky;
   top: 25%;
 
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 
   transition: all 0.3s ease;
@@ -209,7 +246,7 @@ watch(
 .cta-content {
   position: absolute;
 
-  width: 30rem;
+  width: 80%;
   height: 60%;
   border-radius: 16px;
 
@@ -309,5 +346,22 @@ watch(
 .cta-leave-from {
   opacity: 1;
   transform: translateX(-50%) scale(1);
+}
+
+@media (max-width: 1024px) {
+  .cta-element {
+    top: 15%;
+  }
+}
+
+@media (max-width: 924px) {
+  .right {
+    display: none;
+  }
+
+  .center {
+    display: flex;
+    justify-content: center;
+  }
 }
 </style>

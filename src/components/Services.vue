@@ -65,11 +65,22 @@ h2 {
 .content-container {
   display: flex;
   justify-content: center;
+  margin: 0 2vw;
 }
 
 .content-wrapper {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2vh 2vw;
+  gap: 2vh 0;
+
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 896px) {
+  .content-wrapper {
+    grid-template-columns: 1fr;
+    margin: 0 2vw;
+  }
 }
 </style>

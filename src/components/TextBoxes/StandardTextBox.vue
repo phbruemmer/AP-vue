@@ -20,23 +20,33 @@
   flex-direction: column;
   text-align: left;
 
-  width: 400px;
+  width: 100vw;
+  max-width: 400px;
+  padding: 1rem;
 }
 
 .text-block h4 {
   letter-spacing: 1px;
   margin: 0;
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
 }
 
 .text-block h3 {
   font-family: "Bebas";
   font-weight: 100;
   letter-spacing: 1px;
-  font-size: 2rem;
-  margin: 0;
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  margin: 0.25rem 0;
 }
 
 .text-block p {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .text-block {
+    max-width: 250px;
+  }
 }
 </style>
