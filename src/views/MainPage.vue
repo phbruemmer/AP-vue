@@ -18,9 +18,17 @@
   </section>
 
   <!-- Section 4 - Calendar Section -->
+  <!--
   <section id="calendar">
     <Calendar />
   </section>
+  -->
+
+  <!--
+  
+  Maybe put some list like components in here
+  
+  -->
 
   <!-- Section 5 - News Section -->
   <section id="news">
@@ -37,7 +45,6 @@
 import Hero from "../components/Hero.vue";
 import InformationSection from "../components/InformationSection.vue";
 import News from "../components/News.vue";
-import AppointmentSelection from "../components/AppointmentSelection.vue";
 import Services from "../components/Services.vue";
 import Calendar from "../components/Calendar.vue";
 import Footer from "../components/Footer.vue";
@@ -47,6 +54,6 @@ import StickySectionNotes from "../components/StickySectionNotes.vue";
 
 <style scoped>
 section {
-  margin-bottom: 16vh;
+  margin-bottom: 20vh;
 }
 </style>

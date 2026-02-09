@@ -74,7 +74,7 @@
     </div>
 
     <div class="lower-center">
-      <AppointmentCTA />
+      <Calendar />
     </div>
 
     <div class="bottom"></div>
@@ -86,7 +86,7 @@ import { useElementVisibility } from "@vueuse/core";
 import { ref, useTemplateRef, watch } from "vue";
 
 import StandardTextBox from "./TextBoxes/StandardTextBox.vue";
-import AppointmentCTA from "./templates/AppointmentCTA.vue";
+import Calendar from "./Calendar.vue";
 
 type Active = null | "first" | "second" | "third" | "fourth";
 const active = ref<Active>(null);
@@ -232,7 +232,7 @@ watch(
   justify-content: center;
   align-items: center;
 
-  padding-top: 16vh;
+  padding-top: 20vh;
 }
 
 /*
