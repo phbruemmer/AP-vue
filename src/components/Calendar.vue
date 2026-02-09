@@ -410,10 +410,6 @@ onMounted(async () => {
   recalculateMonth();
   // Load calendar data from json
   await loadCalendarJson();
-
-  // Test env.
-  const funny = new Date(2026, 0, 13);
-  console.log(checkClosed(funny));
 });
 </script>
 
