@@ -10,7 +10,9 @@
 
       <transition name="arrow">
         <div class="arrow-container" @click="scrollTo('start')" v-if="isTop">
-          <span class="arrow-down"></span>
+          <div class="arrow">
+            <span class="arrow-down"></span>
+          </div>
         </div>
       </transition>
     </div>
@@ -91,8 +93,11 @@ onUnmounted(() => {
   position: absolute;
   bottom: 2.5rem;
   background: #00000048;
-  padding: 10px 15px;
-  border-radius: 50px;
+
+  width: 3rem;
+  height: 3rem;
+
+  border-radius: 50%;
   display: inline-block;
   transition: all 0.2s ease;
 }
@@ -100,6 +105,10 @@ onUnmounted(() => {
 .arrow-container:hover {
   transform: scale(1.15);
   cursor: pointer;
+}
+
+.arrow {
+  transform: translateY(0.5rem);
 }
 
 .arrow-down {
