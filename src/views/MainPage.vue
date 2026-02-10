@@ -13,22 +13,13 @@
   </section>
 
   <!-- Section 3 - Appointments and More -->
-  <section id="placeholder">
+  <section id="appointments">
     <StickySectionNotes />
-  </section>
 
-  <!-- Section 4 - Calendar Section -->
-  <!--
-  <section id="calendar">
-    <Calendar />
-  </section>
-  -->
+    <Stats />
 
-  <!--
-  
-  Maybe put some list like components in here
-  
-  -->
+    <ExpandableContent />
+  </section>
 
   <!-- Section 5 - News Section -->
   <section id="news">
@@ -46,10 +37,11 @@ import Hero from "../components/Hero.vue";
 import InformationSection from "../components/InformationSection.vue";
 import News from "../components/News.vue";
 import Services from "../components/Services.vue";
-import Calendar from "../components/Calendar.vue";
 import Footer from "../components/Footer.vue";
 import pageTransition from "../components/transition/pageTransition.vue";
 import StickySectionNotes from "../components/StickySectionNotes.vue";
+import ExpandableContent from "../components/templates/ExpandableContent.vue";
+import Stats from "../components/Stats.vue";
 </script>
 
 <style scoped>

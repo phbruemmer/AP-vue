@@ -83,7 +83,7 @@ onUnmounted(() => {
 
 <style scoped>
 h2 {
-  font-family: "Bebas";
+  font-family: "Tasa-Bold";
   font-size: 2.2rem;
   letter-spacing: 2px;
 }

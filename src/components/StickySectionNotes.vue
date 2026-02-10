@@ -180,6 +180,10 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.main-container {
+  z-index: 9999;
+}
+
 /*
 # # # # #         # # # # #
             Top
@@ -206,8 +210,8 @@ onUnmounted(() => {
 }
 
 .top .cta h2 {
-  font-family: "Bebas";
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-family: "Tasa-Bold";
+  font-size: clamp(1.5rem, 3.5vw, 3rem);
   letter-spacing: 1px;
   margin: 1vh 0;
   width: 100%;
@@ -330,8 +334,10 @@ onUnmounted(() => {
 
 .bottom {
   height: 40vh;
-  background: linear-gradient(to top, #7753b918 40%, #5389b90e 100%);
+  background: linear-gradient(to top, #eee9f6 40%, #f6f9fb 100%);
   clip-path: ellipse(100% 100% at 50% 0%);
+  position: relative;
+  z-index: 9999;
 }
 
 /* Bubble Colors */
@@ -431,15 +437,3 @@ onUnmounted(() => {
   }
 }
 </style>
-
-<!--
-
-1: sliding / rotating blocks coming into view - CTA appears in the center
-
-2: CTA elements appear one by one (total 3 elements)
-
-3: circular CTA element appear
-
-4: Blocks appear at both edges - centered CTA appears
-
--->
