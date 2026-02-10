@@ -29,6 +29,7 @@
   <!-- Footer -->
   <Footer />
 
+  <NavigationBar />
   <pageTransition type="open" />
 </template>
 
@@ -42,6 +43,7 @@ import pageTransition from "../components/transition/pageTransition.vue";
 import StickySectionNotes from "../components/StickySectionNotes.vue";
 import ExpandableContent from "../components/templates/ExpandableContent.vue";
 import Stats from "../components/Stats.vue";
+import NavigationBar from "../components/templates/NavigationBar.vue";
 </script>
 
 <style scoped>
