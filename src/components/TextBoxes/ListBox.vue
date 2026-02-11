@@ -50,6 +50,8 @@ const toggleBox = () => {
 
 .main h2 {
   font-family: "Tasa";
+  font-size: 1.3rem;
+  color: #222;
 }
 
 .arrow-container {

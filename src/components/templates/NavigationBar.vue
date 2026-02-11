@@ -2,7 +2,9 @@
   <transition name="appear">
     <div
       class="nav-toggle"
-      v-if="scrollY >= 1200 && scrollY <= 8000 && !getStatus().value"
+      v-if="
+        scrollY >= 1200 && scrollY <= 8000 && !getStatus().value && !isMobile
+      "
       @click="toggleNavbar()"
     >
       <div class="toggle long"></div>
@@ -14,7 +16,11 @@
     <transition name="appear">
       <DetachedNavbar
         v-if="
-          scrollY >= 1200 && scrollY <= 8000 && !getStatus().value && isActive
+          scrollY >= 1200 &&
+          scrollY <= 8000 &&
+          !getStatus().value &&
+          isActive &&
+          !isMobile
         "
         @close="isActive = false"
       >
@@ -42,7 +48,6 @@ const checkSize = () => {
 
 const onScroll = () => {
   scrollY.value = window.scrollY;
-  console.log(scrollY.value);
 };
 
 onMounted(() => {
@@ -67,11 +72,12 @@ onUnmounted(() => {
   gap: 0.5rem;
   cursor: pointer;
   z-index: 9999;
+  transform: translateY(-50%);
   transition: all 0.2s ease;
 }
 
 .nav-toggle:active {
-  transform: scale(0.9);
+  transform: translateY(-50%) scale(0.9);
 }
 
 .toggle {
