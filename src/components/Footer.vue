@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="footer-container">
-      <div class="footer-section">
+      <div class="footer-section" v-if="!isMobile">
         <h4>Kontakt</h4>
         <ul>
           <li>
@@ -46,16 +46,31 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import pageTransition from "./transition/pageTransition.vue";
 
 const destination = ref<string>("");
 const startTransition = ref<boolean>(false);
 
+const isMobile = ref<boolean>(false);
+
 const goTo = (dest: string) => {
   destination.value = dest;
   startTransition.value = true;
 };
+
+const checkSize = () => {
+  isMobile.value = window.innerWidth <= 768;
+};
+
+onMounted(() => {
+  checkSize();
+  window.addEventListener("resize", checkSize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", checkSize);
+});
 </script>
 
 <style scoped>
