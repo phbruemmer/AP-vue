@@ -58,23 +58,30 @@
     </p>
   </div>
 
-  <Modal :title="modalTitle" :is-open="isOpen" @close="isOpen = false">
-    <CalendarSlot
-      :day="modalDay"
-      :closed-day="checkClosed(modalDay)"
-      @recalculate="recalculateMonth()"
-      @invalidInput="showInvalidInputError()"
-      @deletedLocalstorage="showDeleteLocalStorageMessage()"
-    />
-  </Modal>
+  <div class="popups">
+    <Modal :title="modalTitle" :is-open="isOpen" @close="isOpen = false">
+      <CalendarSlot
+        :day="modalDay"
+        :closed-day="checkClosed(modalDay)"
+        @recalculate="recalculateMonth()"
+        @invalidInput="showInvalidInputError()"
+        @deletedLocalstorage="showDeleteLocalStorageMessage()"
+      />
+    </Modal>
 
-  <PopUp :title="popUpTitle" :is-open="popUpIsOpen" @close="closePopUp()">
-    {{ popUpContent }}
-  </PopUp>
+    <PopUp
+      :title="popUpTitle"
+      :is-open="getStatus().value"
+      @close="closePopUp()"
+    >
+      {{ popUpContent }}
+    </PopUp>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
+import { showPopUp, closePopUp, getStatus } from "../composables/popUp";
 import base from "../data/base.json";
 
 import Modal from "./UI/Modal.vue";
@@ -95,25 +102,20 @@ const closed = ref<Calendar>({
 
 // PopUp Variables
 const popUpIsOpen = ref<boolean>(false);
-
 const popUpTitle = ref<string>("Fehlgeschlagen");
 const popUpContent = ref<string>("Es muss ein Zeitraum eingegeben werden.");
-
-const closePopUp = () => {
-  popUpIsOpen.value = false;
-};
 
 const showInvalidInputError = (): void => {
   popUpTitle.value = "Fehlgeschlagen";
   popUpContent.value = "Es muss ein Zeitraum eingegeben werden.";
-  popUpIsOpen.value = true;
+  popUpIsOpen.value = showPopUp().value;
 };
 
 const showDeleteLocalStorageMessage = () => {
   popUpTitle.value = "Gespeicherte Einträge gelöscht.";
   popUpContent.value =
     "Die Termine wurden erfolgreich aus dem Speicher Ihres Browsers gelöscht.";
-  popUpIsOpen.value = true;
+  popUpIsOpen.value = showPopUp().value;
   isOpen.value = false;
 };
 
@@ -621,6 +623,11 @@ thead th {
 .closed.today {
   background-color: #0000002e;
   color: #888;
+}
+
+.popups {
+  position: relative;
+  z-index: 99999;
 }
 
 @media (max-width: 768px) {

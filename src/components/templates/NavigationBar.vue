@@ -1,7 +1,13 @@
 <template>
   <div class="main-container">
     <transition name="appear">
-      <DetachedNavbar v-if="scrollY >= 1200"> </DetachedNavbar>
+      <DetachedNavbar
+        v-if="
+          scrollY >= 1200 && scrollY <= 8000 && !getStatus().value && isActive
+        "
+        @close="isActive = false"
+      >
+      </DetachedNavbar>
     </transition>
   </div>
 </template>
@@ -9,7 +15,9 @@
 <script lang="ts" setup>
 import DetachedNavbar from "../DetachedNavbar.vue";
 import { onMounted, onUnmounted, ref } from "vue";
+import { getStatus } from "../../composables/popUp";
 
+const isActive = ref<boolean>(true);
 const isMobile = ref<boolean>(false);
 const scrollY = ref<number>(0);
 
@@ -19,6 +27,8 @@ const checkSize = () => {
 
 const onScroll = () => {
   scrollY.value = window.scrollY;
+  console.log(scrollY.value);
+  if (scrollY.value <= 800) isActive.value = true;
 };
 
 onMounted(() => {

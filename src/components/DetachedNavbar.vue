@@ -1,5 +1,5 @@
 <template>
-  <div class="navigation">
+  <div class="navigation" @click="emits('close')">
     <p>placeholder</p>
     <p>placeholder</p>
     <p>placeholder</p>
@@ -7,7 +7,11 @@
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const emits = defineEmits<{
+  (e: "close"): void;
+}>();
+</script>
 
 <style scoped>
 .navigation {
@@ -26,5 +30,10 @@
 
   gap: 4vw;
   background: #f5f5fe;
+  transition: all 0.1s ease;
+}
+
+.navigation:active {
+  transform: scale(0.9);
 }
 </style>
