@@ -1,4 +1,15 @@
 <template>
+  <transition name="appear">
+    <div
+      class="nav-toggle"
+      v-if="scrollY >= 1200 && scrollY <= 8000 && !getStatus().value"
+      @click="toggleNavbar()"
+    >
+      <div class="toggle long"></div>
+      <div class="toggle"></div>
+    </div>
+  </transition>
+
   <div class="main-container">
     <transition name="appear">
       <DetachedNavbar
@@ -21,6 +32,10 @@ const isActive = ref<boolean>(true);
 const isMobile = ref<boolean>(false);
 const scrollY = ref<number>(0);
 
+const toggleNavbar = () => {
+  isActive.value = !isActive.value;
+};
+
 const checkSize = () => {
   isMobile.value = window.innerWidth <= 768;
 };
@@ -28,7 +43,6 @@ const checkSize = () => {
 const onScroll = () => {
   scrollY.value = window.scrollY;
   console.log(scrollY.value);
-  if (scrollY.value <= 800) isActive.value = true;
 };
 
 onMounted(() => {
@@ -44,6 +58,33 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.nav-toggle {
+  position: fixed;
+  top: 6vh;
+  left: 2vw;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  cursor: pointer;
+  z-index: 9999;
+  transition: all 0.2s ease;
+}
+
+.nav-toggle:active {
+  transform: scale(0.9);
+}
+
+.toggle {
+  height: 2px;
+  width: 24px;
+  border-radius: 2px;
+  border-bottom: 2px solid #222;
+}
+
+.toggle.long {
+  width: 32px;
+}
+
 .main-container {
   display: flex;
   justify-content: center;

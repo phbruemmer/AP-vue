@@ -13,9 +13,10 @@
   </section>
 
   <!-- Section 3 - Appointments and More -->
-  <section id="appointments">
+  <section>
     <StickySectionNotes />
 
+    <!-- General Info -->
     <Stats id="info" />
 
     <ExpandableContent />

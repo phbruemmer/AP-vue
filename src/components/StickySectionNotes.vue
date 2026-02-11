@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <div class="top">
+    <div class="top" id="appointments">
       <div class="cta">
         <h2>Termin online buchen - Schnell & unkompliziert</h2>
         <p>
