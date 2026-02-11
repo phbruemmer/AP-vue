@@ -10,8 +10,13 @@
       </div>
     </div>
 
+    <div class="upper-top">
+      <button class="cta-btn">Termin wählen</button>
+    </div>
+
     <div class="center">
       <div class="left">
+        <!-- First Target -->
         <div ref="firstTarget">
           <StandardTextBox />
 
@@ -25,6 +30,7 @@
           </transition>
         </div>
 
+        <!-- Second Target -->
         <div ref="secondTarget">
           <StandardTextBox />
 
@@ -38,6 +44,7 @@
           </transition>
         </div>
 
+        <!-- Third Target -->
         <div ref="thirdTarget">
           <StandardTextBox />
 
@@ -51,6 +58,7 @@
           </transition>
         </div>
 
+        <!-- Fourth Target -->
         <div ref="fourthTarget">
           <StandardTextBox />
 
@@ -115,12 +123,15 @@
 
     <div class="bottom"></div>
   </div>
+
+  <!-- <Redirection /> // Only if wanted -->
 </template>
 
 <script lang="ts" setup>
 import { useElementVisibility } from "@vueuse/core";
 import { onMounted, onUnmounted, ref, useTemplateRef, watch } from "vue";
 
+import Redirection from "./Navigation/Redirection.vue";
 import StandardTextBox from "./TextBoxes/StandardTextBox.vue";
 import Calendar from "./Calendar.vue";
 
@@ -226,6 +237,50 @@ onUnmounted(() => {
 }
 
 /*
+# # # # #             # # # # #
+            Upper-Top
+# # # # #             # # # # #
+*/
+
+.upper-top {
+  height: 20vh;
+  background: #5389b90e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cta-btn {
+  position: relative;
+  padding: 1.2rem 2.5rem;
+  border-radius: 999px;
+  border: 2px solid transparent;
+
+  background:
+    linear-gradient(#f6f9fb, #f6f9fb) padding-box,
+    linear-gradient(270deg, #a588ef, #ff7ad9, #6be1ff, #a588ef) border-box;
+
+  background-size:
+    100% 100%,
+    400% 400%;
+
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+
+  font-family: "Tasa-Semi";
+  font-size: 1rem;
+  color: #222;
+
+  cursor: pointer;
+  transition: all 0.1s ease;
+  animation: gradientMove 6s linear infinite;
+}
+
+.cta-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
+}
+
+/*
 # # # # #           # # # # #
             Center
 # # # # #           # # # # #
@@ -295,19 +350,15 @@ onUnmounted(() => {
   height: 20rem;
 
   border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   opacity: 0.6;
 }
 
 .right-mobile {
-  transform: translateX(-50%);
+  transform: translateX(50%);
 }
 
 .left-mobile {
-  transform: translateX(50%);
+  transform: translateX(-50%);
 }
 
 /*
