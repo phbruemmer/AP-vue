@@ -1,7 +1,7 @@
 <template>
   <div class="navbar">
     <nav class="nav">
-      <a href="#news" class="animated-link">News</a>
+      <a href="#services" class="animated-link">Leistungen</a>
       <a href="#appointments" class="animated-link">Termine</a>
     </nav>
 
@@ -10,8 +10,8 @@
     </div>
 
     <nav class="nav">
-      <a href="#services" class="animated-link">Leistungen</a>
       <a href="#calendar" class="animated-link">Kalender</a>
+      <a href="#info" class="animated-link">Informationen</a>
     </nav>
   </div>
 </template>

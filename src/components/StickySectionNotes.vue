@@ -109,7 +109,7 @@
       </div>
     </div>
 
-    <div class="lower-center">
+    <div class="lower-center" id="calendar">
       <Calendar />
     </div>
 

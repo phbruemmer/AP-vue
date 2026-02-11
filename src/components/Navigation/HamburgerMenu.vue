@@ -13,11 +13,11 @@
 
   <Transition name="nav">
     <nav class="nav-container" v-if="isOpen">
-      <a href="#news" @click="changeState()">News</a>
+      <a href="#services" @click="changeState()">Leistungen</a>
       <a href="#appointments" @click="changeState()">Termine</a>
 
-      <a href="#services" @click="changeState()">Leistungen</a>
       <a href="#calendar" @click="changeState()">Kalender</a>
+      <a href="#info" @click="changeState()">Informationen</a>
     </nav>
   </Transition>
 </template>

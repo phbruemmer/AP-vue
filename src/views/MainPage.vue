@@ -16,7 +16,7 @@
   <section id="appointments">
     <StickySectionNotes />
 
-    <Stats />
+    <Stats id="info" />
 
     <ExpandableContent />
   </section>
