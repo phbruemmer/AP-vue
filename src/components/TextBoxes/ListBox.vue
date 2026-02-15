@@ -1,18 +1,16 @@
 <template>
   <div class="box-container" @click="toggleBox()">
     <div class="main">
-      <h2>Some random question?</h2>
+      <h2>{{ props.title }}</h2>
 
       <div class="arrow-container" :class="expanded ? 'expanded' : ''">
         <div class="arrow"></div>
       </div>
     </div>
 
-    <transition name="fade-slide">
-      <div class="content-container" v-if="expanded">
-        <slot></slot>
-      </div>
-    </transition>
+    <div class="content-container" :class="{ open: expanded }">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
@@ -78,20 +76,15 @@ const toggleBox = () => {
   width: 20vw;
   min-width: 250px;
   max-width: 450px;
+
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: all 0.5s ease;
 }
 
-.fade-slide-enter-active,
-.fade-slide-leave-active {
-  transition: all 0.3s ease;
-}
-.fade-slide-enter-from,
-.fade-slide-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
-}
-.fade-slide-enter-to,
-.fade-slide-leave-from {
+.content-container.open {
+  max-height: 500px;
   opacity: 1;
-  transform: translateY(0);
 }
 </style>
