@@ -34,7 +34,7 @@ import DetachedNavbar from "../DetachedNavbar.vue";
 import { onMounted, onUnmounted, ref } from "vue";
 import { getStatus } from "../../composables/popUp";
 
-const isActive = ref<boolean>(true);
+const isActive = ref<boolean>(false);
 const isMobile = ref<boolean>(false);
 const scrollY = ref<number>(0);
 
@@ -52,6 +52,7 @@ const onScroll = () => {
 
 onMounted(() => {
   checkSize();
+  onScroll();
   window.addEventListener("resize", checkSize);
   window.addEventListener("scroll", onScroll);
 });
@@ -81,10 +82,9 @@ onUnmounted(() => {
 }
 
 .toggle {
-  height: 2px;
   width: 24px;
-  border-radius: 2px;
-  border-bottom: 2px solid #222;
+  height: 2px;
+  background: #222;
 }
 
 .toggle.long {
