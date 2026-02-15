@@ -23,23 +23,29 @@
         dignissimos necessitatibus.
       </BlockBox>
 
-      <!-- Fourth Box -->
-      <BlockBox title="Titel" v-if="(isMobile && contentLoaded) || !isMobile">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum a at
-        dignissimos necessitatibus.
-      </BlockBox>
+      <transition name="appear">
+        <!-- Fourth Box -->
+        <BlockBox title="Titel" v-if="(isMobile && contentLoaded) || !isMobile">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum a at
+          dignissimos necessitatibus.
+        </BlockBox>
+      </transition>
 
-      <!-- Fifth Box -->
-      <BlockBox title="Titel" v-if="(isMobile && contentLoaded) || !isMobile">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum a at
-        dignissimos necessitatibus.
-      </BlockBox>
+      <transition name="appear">
+        <!-- Fifth Box -->
+        <BlockBox title="Titel" v-if="(isMobile && contentLoaded) || !isMobile">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum a at
+          dignissimos necessitatibus.
+        </BlockBox>
+      </transition>
 
-      <!-- Sixth Box -->
-      <BlockBox title="Titel" v-if="(isMobile && contentLoaded) || !isMobile">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum a at
-        dignissimos necessitatibus.
-      </BlockBox>
+      <transition name="appear">
+        <!-- Sixth Box -->
+        <BlockBox title="Titel" v-if="(isMobile && contentLoaded) || !isMobile">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum a at
+          dignissimos necessitatibus.
+        </BlockBox>
+      </transition>
     </div>
 
     <p
@@ -115,6 +121,23 @@ h2 {
   margin-top: 4vh;
   text-decoration: underline;
   cursor: pointer;
+}
+
+.appear-enter-active,
+.appear-leave-active {
+  transition: all 0.1s ease;
+}
+
+.appear-enter-from,
+.appear-leave-to {
+  height: 0;
+  opacity: 0;
+}
+
+.appear-enter-to,
+.appear-leave-from {
+  height: 20vh;
+  opacity: 1;
 }
 
 @media (max-width: 896px) {
